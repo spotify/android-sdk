@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Spotify SDK Demo</string>
+    <string name="authorize">Connect and Authorize</string>
+    <string name="browse_content">Browse Content</string>
+    <string name="connect">Connect</string>
+    <string name="connect_switch_to_local">Switch to Local Playback</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="echo">Echo</string>
+    <string name="get_collection_state">Get Collection state</string>
+    <string name="pause_button_label">Pause playback</string>
+    <string name="play_album_button_label">Play album</string>
+    <string name="play_artist_button_label">Play artist</string>
+    <string name="play_playlist_button_label">Play playlist</string>
+    <string name="play_track_button_label">Play track</string>
+    <string name="remove_uri">Remove from Collection</string>
+    <string name="resume_button_label">Resume playback</string>
+    <string name="save_uri">Save to Collection</string>
+    <string name="seek_to">Seek to position</string>
+    <string name="set_repeat_button">Toggle Repeat</string>
+    <string name="set_shuffle_button">Toggle Shuffle</string>
+    <string name="show_player_state_button_label">Show playerstate</string>
+    <string name="skip_next_button">Next</string>
+    <string name="skip_previous_button">Previous</string>
+    <string name="subscribe_to_capabilities">Get Capabilities</string>
+    <string name="subscribe_to_current_track">Subscribe to playerstate</string>
+    <string name="subscribe_to_player_context">Subscribe to playercontext</string>
+    <string name="title_activity_remote">SDK Remote</string>
+</resources>

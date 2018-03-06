@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:grid="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:background="#fff"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:ignore="SmallSp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:descendantFocusability="beforeDescendants"
+        android:focusableInTouchMode="true"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
+
+        <android.support.v7.widget.GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            grid:columnCount="2">
+
+            <Button
+                android:textSize="10sp"
+                grid:layout_columnWeight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/authorize"
+                android:onClick="onConnectAndAuthorizedClicked"
+                android:filterTouchesWhenObscured="false"
+                android:text="@string/authorize" />
+
+            <Button
+                android:textSize="10sp"
+                grid:layout_columnWeight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/connect"
+                android:onClick="onConnectClicked"
+                android:filterTouchesWhenObscured="false"
+                android:text="@string/connect"/>
+
+            <Button
+                android:textSize="10sp"
+                grid:layout_columnWeight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/disconnect"
+                android:onClick="onDisconnectClicked"
+                android:filterTouchesWhenObscured="false"
+                android:text="@string/disconnect"/>
+
+            <Button
+                android:textSize="10sp"
+                grid:layout_columnWeight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/show_player_state_button"
+                android:onClick="onShowPlayerStateButtonClicked"
+                android:filterTouchesWhenObscured="false"
+                android:text="@string/show_player_state_button_label"/>
+
+            <Button
+                android:textSize="10sp"
+                grid:layout_columnWeight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/play_track_button"
+                android:onClick="onPlayTrackButtonClicked"
+                android:filterTouchesWhenObscured="false"
+                android:text="@string/play_track_button_label"/>
+
+            <Button
+                android:textSize="10sp"
+                grid:layout_columnWeight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/play_album_button"
+                android:onClick="onPlayAlbumButtonClicked"
+                android:filterTouchesWhenObscured="false"
+                android:text="@string/play_album_button_label"/>
+
+            <Button
+                android:textSize="10sp"
+                grid:layout_columnWeight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/play_artist_button"
+                android:onClick="onPlayArtistButtonClicked"
+                android:filterTouchesWhenObscured="false"
+                android:text="@string/play_artist_button_label"/>
+
+            <Button
+                android:textSize="10sp"
+                grid:layout_columnWeight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/play_playlist_button"
+                android:onClick="onPlayPlaylistButtonClicked"
+                android:filterTouchesWhenObscured="false"
+                android:text="@string/play_playlist_button_label"/>
+
+            <Button
+                android:textSize="10sp"
+                grid:layout_columnWeight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/pause_button"
+                android:onClick="onPauseButtonClicked"
+                android:filterTouchesWhenObscured="false"
+                android:text="@string/pause_button_label"/>
+
+            <Button
+                android:textSize="10sp"
+                grid:layout_columnWeight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/resume_button"
+                android:onClick="onResumeButtonClicked"
+                android:filterTouchesWhenObscured="false"
+                android:text="@string/resume_button_label"/>
+
+            <Button
+                android:textSize="10sp"
+                grid:layout_columnWeight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/skip_prev_button"
+                android:onClick="onSkipPreviousButtonClicked"
+                android:filterTouchesWhenObscured="false"
+                android:text="@string/skip_previous_button"/>
+
+            <Button
+                android:textSize="10sp"
+                grid:layout_columnWeight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/skip_next_button"
+                android:onClick="onSkipNextButtonClicked"
+                android:filterTouchesWhenObscured="false"
+                android:text="@string/skip_next_button"/>
+
+            <Button
+                android:textSize="10sp"
+                grid:layout_columnWeight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/shuffle_button"
+                android:onClick="onShuffleButtonClicked"
+                android:filterTouchesWhenObscured="false"
+                android:text="@string/set_shuffle_button"/>
+
+            <Button
+                android:textSize="10sp"
+                grid:layout_columnWeight="1"
+                android:id="@+id/repeat_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:onClick="onRepeatButtonClicked"
+                android:filterTouchesWhenObscured="false"
+                android:text="@string/set_repeat_button"/>
+
+
+            <Button
+                android:textSize="10sp"
+                grid:layout_columnWeight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/subscribe_to_capabilities"
+                android:onClick="onSubscribeToCapabilities"
+                android:filterTouchesWhenObscured="false"
+                android:text="@string/subscribe_to_capabilities"/>
+
+            <Button
+                android:textSize="10sp"
+                grid:layout_columnWeight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/get_collection_state"
+                android:onClick="onGetCollectionState"
+                android:filterTouchesWhenObscured="false"
+                android:text="@string/get_collection_state"/>
+
+            <Button
+                android:textSize="10sp"
+                grid:layout_columnWeight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/remove_uri"
+                android:onClick="onRemoveUri"
+                android:filterTouchesWhenObscured="false"
+                android:text="@string/remove_uri"/>
+
+            <Button
+                android:textSize="10sp"
+                grid:layout_columnWeight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/save_uri"
+                android:onClick="onSaveUri"
+                android:filterTouchesWhenObscured="false"
+                android:text="@string/save_uri"/>
+
+            <Button
+                android:textSize="10sp"
+                grid:layout_columnWeight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/get_fitness_child"
+                android:onClick="onGetFitnessChild"
+                android:filterTouchesWhenObscured="false"
+                android:text="@string/browse_content"/>
+
+            <Button
+                android:textSize="10sp"
+                grid:layout_columnWeight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/connect_switch_to_local"
+                android:onClick="onConnectSwitchToLocal"
+                android:filterTouchesWhenObscured="false"
+                android:text="@string/connect_switch_to_local"/>
+
+            <Button
+                android:textSize="10sp"
+                grid:layout_columnWeight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/subscribe_to_player_state"
+                android:onClick="onSubscribedToCurrentTrackButtonClicked"
+                android:filterTouchesWhenObscured="false"
+                android:text="@string/subscribe_to_current_track"/>
+
+
+            <Button
+                android:textSize="10sp"
+                grid:layout_columnWeight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/subscribe_to_player_context"
+                android:onClick="onSubscribedToPlayerContextButtonClicked"
+                android:filterTouchesWhenObscured="false"
+                android:text="@string/subscribe_to_player_context"/>
+
+            <Button
+                android:textSize="10sp"
+                grid:layout_columnWeight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/echo"
+                android:onClick="onEcho"
+                android:filterTouchesWhenObscured="false"
+                android:text="@string/echo"/>
+        </android.support.v7.widget.GridLayout>
+
+        <EditText
+            android:id="@+id/seek_input"
+            android:hint="@string/seek_to"
+            android:imeOptions="actionDone"
+            android:inputType="numberSigned"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <SeekBar
+            android:id="@+id/seek_to"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"/>
+
+        <TextView
+            android:id="@+id/capabilities"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#2196f3"/>
+
+        <TextView
+            android:id="@+id/current_context"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#98ff88"/>
+
+        <TextView
+            android:id="@+id/current_track"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ff9800"/>
+
+        <TextView
+            android:id="@+id/recent_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffea00"/>
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxHeight="200dp"
+            android:maxWidth="200dp"
+            tools:ignore="ContentDescription"/>
+
+    </LinearLayout>
+</ScrollView>

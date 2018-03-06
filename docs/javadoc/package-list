@@ -1,0 +1,5 @@
+com.spotify.android.appremote.api
+com.spotify.android.appremote.api.error
+com.spotify.protocol.client
+com.spotify.protocol.error
+com.spotify.protocol.types
