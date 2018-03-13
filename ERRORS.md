@@ -17,8 +17,7 @@ client has disconnected. The following comprises a list of errors that can be de
    CouldNotFindSpotifyApp
 ```
 
-The Spotify app is not installed on the device. Guide the user to install [Spotify from Google Play](https://play.google.com/store/apps/details?id=com.spotify.music) and try to
-connect again.
+The Spotify app is not installed on the device. The Spotify Android app must be installed on the user's device in order for the Spotify App Remote SDK to work. Please see the ["Installing Spotify" section](https://beta.developer.spotify.com/documentation/general/guides/content-linking-guide/) of the Content Linking guide on how to direct users to download Spotify.
 
 ```
    NotLoggedInException
