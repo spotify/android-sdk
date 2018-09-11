@@ -1,2 +1,4 @@
 include ':app-remote-lib'
-include ':demo'
+include ':app-remote-sample'
+include ':auth-lib'
+include ':auth-sample'
