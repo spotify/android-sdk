@@ -1,14 +1,14 @@
 
 # Spotify Android SDK
 
-The `Spotify Android SDK` allows your application to interact with the Spotify app service and web api services.
-The capabilities of this SDK includes authentication and getting metadata for the currently playing track and context, issuing basic playback commands and initiating playback of tracks, albums or playlists.
+The `Spotify Android SDK` allows your application to interact with the Spotify app service.
+The capabilities of this SDK includes authentication and getting metadata for the currently playing track and context, issuing playback commands and initiating playback of tracks, albums or playlists.
 
 The `Spotify Android SDK` consists of two libraries.<br/>
 `Spotify Authentication Library` handles authentication flow and [Spotify Web API](https://developer.spotify.com/documentation/web-api/) calls and `Spotify App Remote` manages audio playback via the Spotify app.<br/>
 The libraries work well together but can also be used separately. For example, if the application doesn't need to play music but needs user login or Web API capabilities it can use the `Spotify Authentication Library` by itself.
 
-Head over to [Spotify for Developers](https://developer.spotify.com/documentation/android-sdk/) for more reading about the Android SDK.
+Head over to [Spotify for Developers](https://developer.spotify.com/documentation/android/) for more reading about the Android SDK.
 
 ### Spotify Authentication Library
 
@@ -25,7 +25,7 @@ This library contains classes for music playback control and metadata access.
 
 ## Getting Started
 
-Walk through the documentation on [Spotify for Developers](https://developer.spotify.com/documentation/android-sdk/).<br/>
+Walk through the quick start documentation on [Spotify for Developers](https://developer.spotify.com/documentation/android/quick-start).<br/>
 Run the sample code in [app-remote-sample](app-remote-sample) and [auth-sample](auth-sample) modules.<br/>
 Add the libraries as module dependencies to your project.
 
