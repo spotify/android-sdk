@@ -13,7 +13,7 @@ buildscript {
 
 allprojects {
 
-    if (rootProject.name.equalsIgnoreCase('spotify')) {
+    if (rootProject.name.equalsIgnoreCase('spotify-sdk') && project.projectDir.name.endsWith('-sample')) {
         Properties props = new Properties()
         File propsFile = new File("${project.projectDir}/gradle.properties")
 
@@ -21,8 +21,8 @@ allprojects {
          'androidBuildTools',
          'androidMinSdk',
          'androidTargetSdk',
-         'gitVersionName',
-         'gitAndroidVersionCode',
+         getVersionName(project.projectDir.name),
+         getVersionCode(project.projectDir.name),
          'supportLibVersion'].each
                 { propName ->
                     project.ext."${propName}" = rootProject."${propName}"
@@ -32,6 +32,8 @@ allprojects {
         props.store(propsFile.newWriter(), "Automatically generated")
     }
 
+
+
     repositories {
         jcenter()
         maven {
@@ -39,6 +41,24 @@ allprojects {
             name 'Google'
         }
     }
+}
+
+static def getVersionName(sampleName) {
+    if (sampleName.equalsIgnoreCase('app-remote-sample')) {
+        return 'appRemoteGitVersionName'
+    } else if (sampleName.equalsIgnoreCase('auth-sample')) {
+        return 'authGitVersionName'
+    }
+    return ''
+}
+
+static def getVersionCode(sampleName) {
+    if (sampleName.equalsIgnoreCase('app-remote-sample')) {
+        return 'appRemoteGitVersionCode'
+    } else if (sampleName.equalsIgnoreCase('auth-sample')) {
+        return 'authGitVersionCode'
+    }
+    return ''
 }
 
 task clean(type: Delete) {
