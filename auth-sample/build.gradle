@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2016 Spotify AB
+ * Copyright (c) 2015-2018 Spotify AB
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -32,8 +32,8 @@ android {
         minSdkVersion androidMinSdk.toString().toInteger()
         targetSdkVersion androidTargetSdk.toString().toInteger()
 
-        versionCode 1
-        versionName "1.0"
+        versionName authGitVersionName
+        versionCode authGitVersionCode.toString().toInteger()
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
