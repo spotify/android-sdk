@@ -37,7 +37,7 @@ android {
     }
 
     defaultConfig {
-        applicationId 'com.spotify.android.appremote.sample'
+        applicationId 'com.spotify.android.appremote.demo'
 
         minSdkVersion androidMinSdk.toString().toInteger()
         targetSdkVersion androidTargetSdk.toString().toInteger()
