@@ -73,7 +73,7 @@ repositories {
 }
 
 dependencies {
-    implementation project(':app-remote-lib')
+    implementation files('../app-remote-lib/spotify-app-remote-release-0.5.0.aar')
 
     implementation "com.android.support:appcompat-v7:$supportLibVersion"
     implementation "com.android.support:gridlayout-v7:$supportLibVersion"
