@@ -17,8 +17,10 @@
     <string name="resume_button_label">Resume playback</string>
     <string name="save_uri">Save to Collection</string>
     <string name="seek_to">Seek to position</string>
-    <string name="set_repeat_button">Toggle Repeat</string>
-    <string name="set_shuffle_button">Toggle Shuffle</string>
+    <string name="toggle_repeat_button">Toggle Repeat</string>
+    <string name="toggle_shuffle_button">Toggle Shuffle</string>
+    <string name="set_repeat_button">Set Repeat All</string>
+    <string name="set_shuffle_button">Set Shuffle true</string>
     <string name="show_player_state_button_label">Show playerstate</string>
     <string name="skip_next_button">Next</string>
     <string name="skip_previous_button">Previous</string>
