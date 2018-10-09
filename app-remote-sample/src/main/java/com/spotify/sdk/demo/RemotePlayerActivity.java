@@ -47,6 +47,7 @@ import com.spotify.protocol.types.ListItem;
 import com.spotify.protocol.types.PlayerContext;
 import com.spotify.protocol.types.PlayerState;
 import com.spotify.protocol.types.Repeat;
+import com.spotify.protocol.types.Shuffle;
 
 import java.util.Arrays;
 import java.util.List;
@@ -75,9 +76,6 @@ public class RemotePlayerActivity extends FragmentActivity {
     private Button mConnect;
     private Button mToggleRepeatButton;
     private Button mToggleShuffleButton;
-
-    private int mRepeatState;
-    private boolean mShuffleState;
 
     private final ErrorCallback mErrorCallback = throwable -> logError(throwable, "Boom!");
 
@@ -147,11 +145,8 @@ public class RemotePlayerActivity extends FragmentActivity {
     private final Subscription.EventCallback<PlayerState> mPlayerStateEventCallback = new Subscription.EventCallback<PlayerState>() {
         @Override
         public void onEvent(PlayerState data) {
-            mRepeatState = data.playbackOptions.repeatMode;
-            mShuffleState = data.playbackOptions.isShuffling;
-
-            mToggleRepeatButton.setText(getString(R.string.set_repeat_button) + " " + mRepeatState);
-            mToggleShuffleButton.setText(getString(R.string.set_shuffle_button) + " " + mShuffleState);
+            mToggleRepeatButton.setText(getString(R.string.toggle_repeat_button) + " " + data.playbackOptions.repeatMode);
+            mToggleShuffleButton.setText(getString(R.string.toggle_shuffle_button) + " " + data.playbackOptions.isShuffling);
 
             mPlayerStateView.setText(String.format(Locale.US, "%d:%s", System.currentTimeMillis(), data));
 
@@ -193,26 +188,14 @@ public class RemotePlayerActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.remote_buttons);
 
+        mConnect = findViewById(R.id.connect);
         mPlayerStateView = findViewById(R.id.current_track);
         mPlayerContextView = findViewById(R.id.current_context);
-        mRecentErrorView = findViewById(R.id.recent_error);
         mCapabilitiesView = findViewById(R.id.capabilities);
+        mToggleShuffleButton = findViewById(R.id.toggle_shuffle_button);
+        mToggleRepeatButton = findViewById(R.id.toggle_repeat_button);
+        mRecentErrorView = findViewById(R.id.recent_error);
         mImageView = findViewById(R.id.image);
-
-        Button capabilitiesButton = findViewById(R.id.subscribe_to_capabilities);
-        mConnect = findViewById(R.id.connect);
-        Button disconnect = findViewById(R.id.disconnect);
-        Button playTrackButton = findViewById(R.id.play_track_button);
-        Button pauseButton = findViewById(R.id.pause_button);
-        Button resumeButton = findViewById(R.id.resume_button);
-        Button skipPrevButton = findViewById(R.id.skip_prev_button);
-        Button skipNextButton = findViewById(R.id.skip_next_button);
-        mToggleShuffleButton = findViewById(R.id.shuffle_button);
-        mToggleRepeatButton = findViewById(R.id.repeat_button);
-        Button currentStateButton = findViewById(R.id.show_player_state_button);
-        Button subscribeToPlayerStateButton = findViewById(R.id.subscribe_to_player_state);
-        Button subscribeToPlayerContextButton = findViewById(R.id.subscribe_to_player_context);
-        Button echo = findViewById(R.id.echo);
 
         mSeekBar = findViewById(R.id.seek_to);
         mSeekBar.setEnabled(false);
@@ -231,33 +214,41 @@ public class RemotePlayerActivity extends FragmentActivity {
         mTrackProgressBar = new TrackProgressBar(mSeekBar);
 
         mViews = Arrays.asList(
-                capabilitiesButton,
-                disconnect,
-                playTrackButton,
-                pauseButton,
-                resumeButton,
-                currentStateButton,
-                subscribeToPlayerStateButton,
-                subscribeToPlayerContextButton,
-                skipNextButton,
-                skipPrevButton,
-                mToggleShuffleButton,
-                mToggleRepeatButton,
-                findViewById(R.id.save_uri),
-                findViewById(R.id.remove_uri),
-                findViewById(R.id.get_collection_state),
+                findViewById(R.id.disconnect),
+                findViewById(R.id.show_player_state_button),
+                findViewById(R.id.play_track_button),
                 findViewById(R.id.play_album_button),
                 findViewById(R.id.play_artist_button),
                 findViewById(R.id.play_playlist_button),
+                findViewById(R.id.pause_button),
+                findViewById(R.id.resume_button),
+                findViewById(R.id.skip_prev_button),
+                findViewById(R.id.skip_next_button),
+                mToggleShuffleButton,
+                mToggleRepeatButton,
+                findViewById(R.id.set_shuffle_button),
+                findViewById(R.id.set_repeat_button),
+                findViewById(R.id.subscribe_to_capabilities),
+                findViewById(R.id.get_collection_state),
+                findViewById(R.id.remove_uri),
+                findViewById(R.id.save_uri),
                 findViewById(R.id.get_fitness_child),
                 findViewById(R.id.connect_switch_to_local),
+                findViewById(R.id.subscribe_to_player_state),
+                findViewById(R.id.subscribe_to_player_context),
+                findViewById(R.id.echo),
                 mSeekBar,
-                seekInput,
-                echo);
+                seekInput);
 
         SpotifyAppRemote.setDebugMode(true);
 
         onDisconnected();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        SpotifyAppRemote.disconnect(mSpotifyAppRemote);
     }
 
     private void onConnected() {
@@ -277,12 +268,6 @@ public class RemotePlayerActivity extends FragmentActivity {
         mPlayerStateView.setText(null);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        SpotifyAppRemote.CONNECTOR.disconnect(mSpotifyAppRemote);
-    }
-
     public void onConnectClicked(View v) {
         connect(false);
     }
@@ -295,12 +280,9 @@ public class RemotePlayerActivity extends FragmentActivity {
     private void connect(boolean showAuthView) {
         final int imageSize = (int) getResources().getDimension(R.dimen.image_size);
 
-        if (mSpotifyAppRemote != null && mSpotifyAppRemote.isConnected()) {
-            SpotifyAppRemote.CONNECTOR.disconnect(mSpotifyAppRemote);
-            mSpotifyAppRemote = null;
-        }
+        SpotifyAppRemote.disconnect(mSpotifyAppRemote);
 
-        SpotifyAppRemote.CONNECTOR.connect(
+        SpotifyAppRemote.connect(
                 getApplication(),
                 new ConnectionParams.Builder(CLIENT_ID)
                         .setRedirectUri(REDIRECT_URI)
@@ -323,7 +305,7 @@ public class RemotePlayerActivity extends FragmentActivity {
     }
 
     public void onDisconnectClicked(View v) {
-        SpotifyAppRemote.CONNECTOR.disconnect(mSpotifyAppRemote);
+        SpotifyAppRemote.disconnect(mSpotifyAppRemote);
         onDisconnected();
     }
 
@@ -371,16 +353,30 @@ public class RemotePlayerActivity extends FragmentActivity {
                 .setErrorCallback(mErrorCallback);
     }
 
-    public void onShuffleButtonClicked(View view) {
+    public void onToggleShuffleButtonClicked(View view) {
         mSpotifyAppRemote.getPlayerApi()
-                .setShuffle(!mShuffleState)
+                .toggleShuffle()
                 .setResultCallback(empty -> logMessage("Toggle shuffle successful"))
                 .setErrorCallback(mErrorCallback);
     }
 
-    public void onRepeatButtonClicked(View view) {
+    public void onToggleRepeatButtonClicked(View view) {
         mSpotifyAppRemote.getPlayerApi()
-                .setRepeat(getNextRepeatMode())
+                .toggleRepeat()
+                .setResultCallback(empty -> logMessage("Toggle repeat successful"))
+                .setErrorCallback(mErrorCallback);
+    }
+
+    public void onSetShuffleTrueButtonClicked(View view) {
+        mSpotifyAppRemote.getPlayerApi()
+                .setShuffle(true)
+                .setResultCallback(empty -> logMessage("Toggle shuffle successful"))
+                .setErrorCallback(mErrorCallback);
+    }
+
+    public void onSetRepeatAllButtonClicked(View view) {
+        mSpotifyAppRemote.getPlayerApi()
+                .setRepeat(Repeat.ALL)
                 .setResultCallback(empty -> logMessage("Toggle repeat successful"))
                 .setErrorCallback(mErrorCallback);
     }
@@ -396,6 +392,82 @@ public class RemotePlayerActivity extends FragmentActivity {
         mSpotifyAppRemote.getPlayerApi()
                 .skipNext()
                 .setResultCallback(empty -> logMessage("Skip next successful"))
+                .setErrorCallback(mErrorCallback);
+    }
+
+    @SuppressLint("SetTextI18n")
+    public void onSubscribeToCapabilities(View view) {
+
+        if (mCapabilitiesSubscription != null && !mCapabilitiesSubscription.isCanceled()) {
+            mCapabilitiesSubscription.cancel();
+            mCapabilitiesSubscription = null;
+        }
+
+        mCapabilitiesSubscription = (Subscription<Capabilities>) mSpotifyAppRemote.getUserApi()
+                .subscribeToCapabilities()
+                .setEventCallback(capabilities -> mCapabilitiesView.setText("ON_DEMAND: " + capabilities.canPlayOnDemand))
+                .setErrorCallback(mErrorCallback);
+
+        mSpotifyAppRemote.getUserApi()
+                .getCapabilities()
+                .setResultCallback(capabilities -> logMessage(String.format("Can play on demand: %s", capabilities.canPlayOnDemand)))
+                .setErrorCallback(mErrorCallback);
+    }
+
+    public void onGetCollectionState(View view) {
+        mSpotifyAppRemote.getUserApi()
+                .getLibraryState(TRACK_URI)
+                .setResultCallback(libraryState -> logMessage(String.format(
+                        "Item is in collection: %s\nCan be added to collection: %s",
+                        libraryState.isAdded,
+                        libraryState.canAdd
+                )))
+                .setErrorCallback(t -> logError(t, "Error:" + t.getMessage()));
+    }
+
+    public void onRemoveUri(View view) {
+        mSpotifyAppRemote.getUserApi()
+                .removeFromLibrary(TRACK_URI)
+                .setResultCallback(empty -> logMessage("Remove from collection successful"))
+                .setErrorCallback(throwable -> logError(throwable, "Error:" + throwable.getMessage()));
+    }
+
+    public void onSaveUri(View view) {
+        mSpotifyAppRemote.getUserApi()
+                .addToLibrary(TRACK_URI)
+                .setResultCallback(empty -> logMessage("Add to collection successful"))
+                .setErrorCallback(throwable -> logError(throwable, "Error:" + throwable.getMessage()));
+    }
+
+    public void onGetFitnessChild(View view) {
+        mSpotifyAppRemote.getContentApi()
+                .getRecommendedContentItems(ContentApi.ContentType.FITNESS)
+                .setResultCallback(listItems -> mSpotifyAppRemote.getContentApi()
+                        .getChildrenOfItem(listItems.items[0], 3, 0)
+                        .setResultCallback(childListItems -> {
+                            logMessage("Got Items: " + childListItems);
+                            ListItem item = null;
+                            for (int i = 0; i < childListItems.items.length; ++i) {
+                                item = childListItems.items[i];
+                                if (item.playable) {
+                                    logMessage(String.format("Trying to play %s", item.title));
+                                    break;
+                                } else {
+                                    item = null;
+                                }
+                            }
+                            mSpotifyAppRemote.getContentApi()
+                                    .playContentItem(item)
+                                    .setResultCallback(empty -> logMessage("Content item played!"))
+                                    .setErrorCallback(mErrorCallback);
+                        })
+                        .setErrorCallback(mErrorCallback)).setErrorCallback(mErrorCallback);
+    }
+
+    public void onConnectSwitchToLocal(View view){
+        mSpotifyAppRemote.getConnectApi()
+                .connectSwitchToLocalDevice()
+                .setResultCallback(empty -> logMessage("Success!"))
                 .setErrorCallback(mErrorCallback);
     }
 
@@ -435,96 +507,11 @@ public class RemotePlayerActivity extends FragmentActivity {
                 .setErrorCallback(mErrorCallback);
     }
 
-    @SuppressLint("SetTextI18n")
-    public void onSubscribeToCapabilities(View view) {
-
-        if (mCapabilitiesSubscription != null && !mCapabilitiesSubscription.isCanceled()) {
-            mCapabilitiesSubscription.cancel();
-            mCapabilitiesSubscription = null;
-        }
-
-        mCapabilitiesSubscription = (Subscription<Capabilities>) mSpotifyAppRemote.getUserApi()
-                .subscribeToCapabilities()
-                .setEventCallback(capabilities -> mCapabilitiesView.setText("ON_DEMAND: " + capabilities.canPlayOnDemand))
-                .setErrorCallback(mErrorCallback);
-
-        mSpotifyAppRemote.getUserApi()
-                .getCapabilities()
-                .setResultCallback(capabilities -> logMessage(String.format("Can play on demand: %s", capabilities.canPlayOnDemand)))
-                .setErrorCallback(mErrorCallback);
-    }
-
-    public void onSaveUri(View view) {
-        mSpotifyAppRemote.getUserApi()
-                .addToLibrary(TRACK_URI)
-                .setResultCallback(empty -> logMessage("Add to collection successful"))
-                .setErrorCallback(throwable -> logError(throwable, "Error:" + throwable.getMessage()));
-    }
-
-    public void onRemoveUri(View view) {
-        mSpotifyAppRemote.getUserApi()
-                .removeFromLibrary(TRACK_URI)
-                .setResultCallback(empty -> logMessage("Remove from collection successful"))
-                .setErrorCallback(throwable -> logError(throwable, "Error:" + throwable.getMessage()));
-    }
-
-    public void onGetCollectionState(View view) {
-        mSpotifyAppRemote.getUserApi()
-                .getLibraryState(TRACK_URI)
-                .setResultCallback(libraryState -> logMessage(String.format(
-                        "Item is in collection: %s\nCan be added to collection: %s",
-                        libraryState.isAdded,
-                        libraryState.canAdd
-                )))
-                .setErrorCallback(t -> logError(t, "Error:" + t.getMessage()));
-    }
-
     public void onEcho(View view) {
         mSpotifyAppRemote
                 .call("com.spotify.echo", new Echo.Request("Hodor!"), Echo.Response.class)
                 .setResultCallback(data -> logMessage(String.format("Echo to 'Hodor!' is '%s'", data.response)))
                 .setErrorCallback(mErrorCallback);
-    }
-
-    public void onGetFitnessChild(View view) {
-        mSpotifyAppRemote.getContentApi()
-                .getRecommendedContentItems(ContentApi.ContentType.FITNESS)
-                .setResultCallback(listItems -> mSpotifyAppRemote.getContentApi()
-                        .getChildrenOfItem(listItems.items[0], 3, 0)
-                        .setResultCallback(childListItems -> {
-                            logMessage("Got Items: " + childListItems);
-                            ListItem item = null;
-                            for (int i = 0; i < childListItems.items.length; ++i) {
-                                item = childListItems.items[i];
-                                if (item.playable) {
-                                    logMessage(String.format("Trying to play %s", item.title));
-                                    break;
-                                } else {
-                                    item = null;
-                                }
-                            }
-                            mSpotifyAppRemote.getContentApi()
-                                    .playContentItem(item)
-                                    .setResultCallback(empty -> logMessage("Content item played!"))
-                                    .setErrorCallback(mErrorCallback);
-                        })
-                        .setErrorCallback(mErrorCallback)).setErrorCallback(mErrorCallback);
-    }
-
-    public void onConnectSwitchToLocal(View view){
-        mSpotifyAppRemote.getConnectApi()
-                .connectSwitchToLocalDevice()
-                .setResultCallback(empty -> logMessage("Success!"))
-                .setErrorCallback(mErrorCallback);
-    }
-
-    private int getNextRepeatMode() {
-        if (mRepeatState == Repeat.ALL) {
-            return Repeat.ONE;
-        } else if (mRepeatState == Repeat.ONE) {
-            return Repeat.OFF;
-        }
-        return Repeat.ALL;
     }
 
     private void logError(Throwable t, String msg) {
