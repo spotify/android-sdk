@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    package="com.spotify.android.appremote.demo"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.spotify.android.appremote.demo">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="false"
@@ -13,11 +12,13 @@
         android:theme="@style/AppTheme">
         <activity
             android:name="com.spotify.sdk.demo.RemotePlayerActivity"
+            android:exported="true"
             android:label="@string/title_activity_remote"
-            android:exported="true">
+            android:screenOrientation="portrait"
+            android:theme="@style/LauncherTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 

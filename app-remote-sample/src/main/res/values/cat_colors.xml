@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources tools:ignore="UnusedResources" xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Cat color palette. -->
+    <color name="cat_clear">#00ffffff</color>
+
+    <color name="cat_black">#000000</color>
+    <color name="cat_black_20">#33000000</color>
+    <color name="cat_black_40">#66000000</color>
+    <color name="cat_black_60">#99000000</color>
+    <color name="cat_black_87">#e0000000</color>
+
+    <color name="cat_grayscale_8">#121314</color>
+    <color name="cat_grayscale_8_90">#E6121314</color>
+    <color name="cat_grayscale_12">#1c1c1f</color>
+    <color name="cat_grayscale_15">#222326</color>
+    <color name="cat_grayscale_15_40">#66222326</color>
+    <color name="cat_grayscale_20">#2e2f33</color>
+    <color name="cat_grayscale_20_90">#e62e2f33</color>
+    <color name="cat_grayscale_25">#3e3e40</color>
+    <color name="cat_grayscale_25_40">#663e3e40</color>
+    <color name="cat_grayscale_25_90">#e63e3e40</color>
+    <color name="cat_grayscale_55">#88898c</color>
+    <color name="cat_grayscale_55_40">#6688898c</color>
+    <color name="cat_grayscale_70">#adaeb3</color>
+    <color name="cat_grayscale_70_40">#66adaeb3</color>
+    <color name="cat_grayscale_80">#c6c7cc</color>
+    <color name="cat_grayscale_90">#dfe0e6</color>
+    <color name="cat_grayscale_90_40">#66dfe0e6</color>
+    <color name="cat_grayscale_95">#ebedf2</color>
+
+    <color name="cat_white">#ffffff</color>
+    <color name="cat_white_5">#0dffffff</color>
+    <color name="cat_white_10">#1affffff</color>
+    <color name="cat_white_12_5">#20ffffff</color>
+    <color name="cat_white_20">#33ffffff</color>
+    <color name="cat_white_40">#66ffffff</color>
+    <color name="cat_white_70">#b3ffffff</color>
+
+    <color name="cat_dark_green">#1da74d</color>
+    <color name="cat_dark_green_40">#661da74d</color>
+    <color name="cat_medium_green">#1db954</color>
+    <color name="cat_medium_green_40">#661db954</color>
+    <color name="cat_light_green">#1ed760</color>
+    <color name="cat_light_green_5">#0d1ed760</color>
+    <color name="cat_light_green_20">#331ed760</color>
+    <color name="cat_light_green_40">#661ed760</color>
+
+    <color name="cat_dark_cyan">#4688d7</color>
+    <color name="cat_medium_cyan">#4688d7</color>
+    <color name="cat_light_cyan">#4688d7</color>
+
+    <color name="cat_dark_red">#ce1a2b</color>
+    <color name="cat_medium_red">#ce1a2b</color>
+    <color name="cat_light_red">#ce1a2b</color>
+
+    <color name="cat_dark_orange">#5e3100</color>
+    <color name="cat_medium_orange">#8f4a00</color>
+    <color name="cat_light_orange">#bd6100</color>
+
+    <color name="cat_dark_yellow">#5e5500</color>
+    <color name="cat_medium_yellow">#8f8100</color>
+    <color name="cat_light_yellow">#bdaa00</color>
+
+    <!-- Cat theme colors. -->
+
+    <color name="cat_list_selector_default">@android:color/transparent</color>
+    <color name="cat_list_selector_focused">@color/cat_white_5</color>
+    <color name="cat_list_selector_pressed">@color/cat_black</color>
+
+    <color name="cat_text_primary_default">@color/cat_white</color>
+    <color name="cat_text_primary_disabled">@color/cat_grayscale_70</color>
+    <color name="cat_text_primary_active">@color/cat_light_green</color>
+
+    <color name="cat_text_secondary_default">@color/cat_grayscale_70</color>
+    <color name="cat_text_secondary_disabled">@color/cat_grayscale_70</color>
+
+    <color name="cat_text_contextmenu_default">@color/cat_white</color>
+    <color name="cat_text_contextmenu_disabled">@color/cat_white_40</color>
+
+    <color name="cat_text_metadata">@color/cat_white_70</color>
+    <color name="cat_text_link">@color/cat_white</color>
+
+    <color name="cat_text_primary_muted_default">@color/cat_grayscale_70</color>
+    <color name="cat_text_primary_muted_disabled">@color/cat_grayscale_70_40</color>
+    <color name="cat_text_primary_muted_active">@color/cat_light_green</color>
+    <color name="cat_text_secondary_muted_default">@color/cat_grayscale_70</color>
+    <color name="cat_text_secondary_muted_disabled">@color/cat_grayscale_70_40</color>
+
+    <color name="cat_accessory_default">@color/cat_grayscale_55</color>
+    <color name="cat_accessory_disabled">@color/cat_grayscale_55_40</color>
+    <color name="cat_accessory_focused">@color/cat_light_green</color>
+    <color name="cat_accessory_focused_disabled">@color/cat_dark_green</color>
+    <color name="cat_accessory_pressed">@color/cat_grayscale_55</color>
+
+    <color name="cat_accessory_green_default">@color/cat_light_green</color>
+    <color name="cat_accessory_green_disabled">@color/cat_light_green_40</color>
+    <color name="cat_accessory_green_focused">@color/cat_medium_green</color>
+    <color name="cat_accessory_green_focused_disabled">@color/cat_dark_green_40</color>
+    <color name="cat_accessory_green_pressed">@color/cat_dark_green</color>
+
+    <color name="cat_button_background_default">@android:color/transparent</color>
+    <color name="cat_button_background_disabled">@android:color/transparent</color>
+    <color name="cat_button_background_focused">@android:color/transparent</color>
+    <color name="cat_button_background_pressed">@android:color/transparent</color>
+    <color name="cat_button_text_default">@color/cat_white</color>
+    <color name="cat_button_text_disabled">@color/cat_white_40</color>
+    <color name="cat_button_text_focused">@color/cat_white</color>
+    <color name="cat_button_text_pressed">@color/cat_white</color>
+    <color name="cat_button_border_default">@color/cat_white_40</color>
+    <color name="cat_button_border_disabled">@color/cat_white_12_5</color>
+    <color name="cat_button_border_focused">@color/cat_white_40</color>
+    <color name="cat_button_border_pressed">@color/cat_grayscale_25</color>
+    <color name="cat_button_border_checked">@color/cat_light_green</color>
+
+    <color name="cat_button_primary_background_default">@color/cat_medium_green</color>
+    <color name="cat_button_primary_background_disabled">@color/cat_dark_green</color>
+    <color name="cat_button_primary_background_focused">@color/cat_medium_green</color>
+    <color name="cat_button_primary_background_pressed">@color/cat_dark_green</color>
+    <color name="cat_button_primary_text_default">@color/cat_white</color>
+    <color name="cat_button_primary_text_disabled">@color/cat_white_40</color>
+    <color name="cat_button_primary_text_focused">@color/cat_white</color>
+    <color name="cat_button_primary_text_pressed">@color/cat_white</color>
+    <color name="cat_button_primary_border_default">@android:color/transparent</color>
+    <color name="cat_button_primary_border_disabled">@android:color/transparent</color>
+    <color name="cat_button_primary_border_focused">@color/cat_light_green</color>
+    <color name="cat_button_primary_border_pressed">@android:color/transparent</color>
+
+    <color name="cat_button_info_background_default">@color/cat_white_20</color>
+    <color name="cat_button_info_background_disabled">@color/cat_white_12_5</color>
+    <color name="cat_button_info_background_focused">@color/cat_white_20</color>
+    <color name="cat_button_info_background_pressed">@color/cat_white_40</color>
+    <color name="cat_button_info_text_default">@color/cat_white</color>
+    <color name="cat_button_info_text_disabled">@color/cat_white_40</color>
+    <color name="cat_button_info_text_focused">@color/cat_white</color>
+    <color name="cat_button_info_text_pressed">@color/cat_white</color>
+    <color name="cat_button_info_dialog_text_default">@color/cat_grayscale_8</color>
+    <color name="cat_button_info_dialog_text_disabled">@color/cat_grayscale_55</color>
+    <color name="cat_button_info_dialog_text_focused">@color/cat_medium_green</color>
+    <color name="cat_button_info_dialog_text_pressed">@color/cat_grayscale_55</color>
+    <color name="cat_button_info_border_default">@android:color/transparent</color>
+    <color name="cat_button_info_border_disabled">@android:color/transparent</color>
+    <color name="cat_button_info_border_focused">@color/cat_light_green</color>
+    <color name="cat_button_info_border_pressed">@android:color/transparent</color>
+
+    <color name="cat_navigationitem_text_default">@color/cat_white</color>
+    <color name="cat_navigationitem_text_active">@color/cat_white</color>
+    <color name="cat_navigationitem_text_pressed">@color/cat_grayscale_70</color>
+    <color name="cat_navigationitem_icon_default">@color/cat_grayscale_70</color>
+    <color name="cat_navigationitem_icon_active">@color/cat_grayscale_70</color>
+    <color name="cat_navigationitem_icon_pressed">@color/cat_grayscale_70</color>
+
+    <color name="cat_profile_panel_default">@color/cat_grayscale_70</color>
+    <color name="cat_profile_panel_pressed">@color/cat_white</color>
+    <color name="cat_profile_panel_selected">@color/cat_white</color>
+
+    <color name="cat_signup_panel_default">@color/cat_medium_green</color>
+    <color name="cat_signup_panel_pressed">@color/cat_white</color>
+    <color name="cat_signup_panel_selected">@color/cat_white</color>
+
+    <color name="cat_tab_text_default">@color/cat_grayscale_55</color>
+    <color name="cat_tab_text_selected">@color/cat_grayscale_90</color>
+
+    <color name="cat_dialog_button_bar_background">@color/cat_medium_green</color>
+
+    <color name="cat_dialog_button_background_negative_default">@color/cat_grayscale_95</color>
+    <color name="cat_dialog_button_background_negative_disabled">@color/cat_grayscale_95</color>
+    <color name="cat_dialog_button_background_negative_focused">@color/cat_light_green</color>
+    <color name="cat_dialog_button_background_negative_pressed">@color/cat_grayscale_80</color>
+
+    <color name="cat_dialog_button_background_positive_default">@color/cat_button_primary_background_default</color>
+    <color name="cat_dialog_button_background_positive_disabled">@color/cat_button_primary_background_disabled</color>
+    <color name="cat_dialog_button_background_positive_focused">@color/cat_button_primary_background_focused</color>
+    <color name="cat_dialog_button_background_positive_pressed">@color/cat_button_primary_background_pressed</color>
+
+    <color name="cat_background_blur_tint">@color/cat_black_60</color>
+
+</resources>
