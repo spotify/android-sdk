@@ -1,4 +1,14 @@
-# Version 0.5.0   
+# Version 0.6.0
+
+**What's New**
+
+* Podcast playback support
+* Set playback speed during Podcast playback
+* Seek to relative playback position
+* Improve image quality
+* Bug fixes & improvements
+
+# Version 0.5.0
   
 **What's New**  
   
