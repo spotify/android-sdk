@@ -1,6 +1,9 @@
 <resources>
-    <string name="app_name">Spotify Android Auth</string>
+    <string name="app_name">Spotify Setup</string>
+    <string name="app_version">1.0</string>
     <string name="warning_need_token">You need to request an access token first</string>
+    <string name="warning_need_code">You need to request an auth code first</string>
     <string name="code">Code: %1$s</string>
     <string name="token">Access Token: %1$s</string>
+    <string name="refresh_token">Refresh Token: %1$s</string>
 </resources>

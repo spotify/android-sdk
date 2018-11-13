@@ -21,6 +21,7 @@
 -->
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -33,24 +34,11 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/token_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            tools:text="Token: 089d841ccc194c10a77afad9e1c11d54" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:onClick="onRequestTokenClicked"
-            android:text="Request Token" />
-
-        <TextView
             android:id="@+id/code_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:textSize="12sp"
             tools:text="Code: 089d841ccc194c10a77afad9e1c11d54" />
 
         <Button
@@ -58,30 +46,55 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:onClick="onRequestCodeClicked"
-            android:text="Request Code" />
+            android:text="Request Auth Code" />
 
-        <ScrollView
+        <TextView
+            android:id="@+id/refresh_text_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="8dp"
-            android:layout_weight="1">
-
-            <TextView
-                android:id="@+id/response_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="10sp"
-                tools:text="Line 1\nLine 2\nLine 3" />
-
-        </ScrollView>
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            tools:text="weweuirywieurywiueyr" />
 
         <Button
-            android:id="@+id/button3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:onClick="onGetUserProfileClicked"
-            android:text="Get User Profile" />
+            android:onClick="onRequestRefreshTokenClicked"
+            android:text="Request Refresh Token" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:onClick="onSendRefreshTokenToDeviceClicked"
+            android:text="Send refresh token to device" />
+
+        <ToggleButton
+            android:id="@+id/ip_address_toggle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onIpAddressToggleClicked"
+            android:text="ToggleButton"
+            android:textOff="Edit device ip address"
+            android:textOn="Save device ip address" />
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/edit_ip_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Device IP address"
+            app:hintEnabled="true"
+            app:hintTextAppearance="@style/TextAppearance.AppCompat">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/edit_ip_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number|numberDecimal"
+                android:digits="0123456789."
+                android:enabled="false" />
+
+        </android.support.design.widget.TextInputLayout>
 
     </LinearLayout>
 
