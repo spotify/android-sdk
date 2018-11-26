@@ -17,18 +17,16 @@
     <string name="play_artist_button_label">Play artist</string>
     <string name="play_playlist_button_label">Play playlist</string>
     <string name="play_track_button_label">Play track</string>
-    <string name="pause_button_label">Pause playback</string>
-    <string name="resume_button_label">Resume playback</string>
     <string name="get_collection_state">Get Collection state</string>
     <string name="save_uri">Save to Collection</string>
     <string name="remove_uri">Remove from Collection</string>
     <string name="browse_content">Browse Content</string>
-    <string name="set_repeat_button">Set Repeat All</string>
-    <string name="set_shuffle_button">Set Shuffle true</string>
     <string name="subscribe_to_capabilities">Get Capabilities</string>
     <string name="subscribe_to_current_track">Subscribe to playerstate</string>
     <string name="subscribe_to_player_context">Subscribe to playercontext</string>
     <string name="title_player_context">Player Context</string>
     <string name="title_current_track">Current Track</string>
+    <string name="title_image_size">Image size</string>
+    <string name="title_image_scale_type">Scale type</string>
     <string name="echo">Echo</string>
 </resources>

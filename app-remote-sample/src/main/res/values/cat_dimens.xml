@@ -1,36 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="cat_button_height">48sp</dimen>
-    <dimen name="cat_button_padding">34sp</dimen>
-    <dimen name="cat_button_corner_radius">24sp</dimen>
-    <dimen name="cat_button_border_width">2dp</dimen>
 
     <dimen name="cat_button_small_height">24sp</dimen>
     <dimen name="cat_button_small_padding">19sp</dimen>
     <dimen name="cat_button_small_corner_radius">12sp</dimen>
     <dimen name="cat_button_small_border_width">1dp</dimen>
-
-    <dimen name="cat_dialog_corner_radius">2dp</dimen>
-
-    <dimen name="cat_navigationitem_padding">24dp</dimen>
-    <dimen name="cat_navigationitem_height">56dp</dimen>
-    <dimen name="cat_navigationitem_text_size">24sp</dimen>
-    <dimen name="cat_navigationitem_icon_padding">24dp</dimen>
-    <dimen name="cat_navigationitem_icon_size">24sp</dimen>
-
-    <dimen name="cat_empty_view_drawable_margin_bottom">24dp</dimen>
-    <dimen name="cat_empty_view_text_margin_top">8dp</dimen>
-    <dimen name="cat_empty_view_accessory_margin_top">24dp</dimen>
-
-    <!-- 0dp on pre api-11 -->
-    <dimen name="dialog_min_width_major">0dp</dimen>
-    <dimen name="dialog_min_width_minor">0dp</dimen>
-
-    <dimen name="cat_notificationbadge_min_size">16dp</dimen>
-
-    <dimen name="cat_list_item_paddings">16dp</dimen>
-
-    <!-- Used for Scannables -->
-    <dimen name="context_menu_header_large_image_width">192dp</dimen>
-    <dimen name="context_menu_header_large_image_height">192dp</dimen>
 </resources>

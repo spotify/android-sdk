@@ -33,8 +33,8 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatSeekBar;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.PopupMenu;
-import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -53,6 +53,7 @@ import com.spotify.android.appremote.demo.R;
 import com.spotify.protocol.client.ErrorCallback;
 import com.spotify.protocol.client.Subscription;
 import com.spotify.protocol.types.Capabilities;
+import com.spotify.protocol.types.Image;
 import com.spotify.protocol.types.ListItem;
 import com.spotify.protocol.types.PlaybackSpeed;
 import com.spotify.protocol.types.PlayerContext;
@@ -80,18 +81,19 @@ public class RemotePlayerActivity extends FragmentActivity {
 
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    Button mConnectButton;
+    Button mConnectButton, mConnectAuthorizeButton;
     Button mSubscribeToPlayerContextButton;
     Button mPlayerContextButton;
     Button mSubscribeToPlayerStateButton;
     Button mPlayerStateButton;
     ImageView mCoverArtImageView;
+    AppCompatTextView mImageLabel;
+    AppCompatTextView mImageScaleTypeLabel;
     AppCompatImageButton mToggleShuffleButton;
     AppCompatImageButton mPlayPauseButton;
     AppCompatImageButton mToggleRepeatButton;
     AppCompatSeekBar mSeekBar;
     AppCompatImageButton mPlaybackSpeedButton;
-    TextView mRecentErrorView;
 
     List<View> mViews;
     TrackProgressBar mTrackProgressBar;
@@ -106,7 +108,7 @@ public class RemotePlayerActivity extends FragmentActivity {
     private final Subscription.EventCallback<PlayerContext> mPlayerContextEventCallback = new Subscription.EventCallback<PlayerContext>() {
         @Override
         public void onEvent(PlayerContext playerContext) {
-            mPlayerContextButton.setText(String.format(Locale.US, "%s | %s", playerContext.title, playerContext.subtitle));
+            mPlayerContextButton.setText(String.format(Locale.US, "%s\n%s", playerContext.title, playerContext.subtitle));
             mPlayerContextButton.setTag(playerContext);
         }
     };
@@ -136,7 +138,7 @@ public class RemotePlayerActivity extends FragmentActivity {
                 DrawableCompat.setTint(mToggleRepeatButton.getDrawable(), Color.WHITE);
             }
 
-            mPlayerStateButton.setText(Html.fromHtml(String.format(Locale.US, "<strong>%s</strong>  |  %s", playerState.track.name, playerState.track.artist.name)));
+            mPlayerStateButton.setText(String.format(Locale.US, "%s\n%s", playerState.track.name, playerState.track.artist.name));
             mPlayerStateButton.setTag(playerState);
 
             // Update progressbar
@@ -180,9 +182,13 @@ public class RemotePlayerActivity extends FragmentActivity {
 
             // Get image from track
             mSpotifyAppRemote.getImagesApi()
-                    .getImage(playerState.track.imageUri)
-                    .setResultCallback(bitmap -> mCoverArtImageView.setImageBitmap(bitmap));
+                    .getImage(playerState.track.imageUri, Image.Dimension.LARGE)
+                    .setResultCallback(bitmap -> {
+                        mCoverArtImageView.setImageBitmap(bitmap);
+                        mImageLabel.setText(String.format(Locale.ENGLISH, "%d x %d", bitmap.getWidth(), bitmap.getHeight()));
+                    });
 
+            // Invalidate seekbar length and position
             mSeekBar.setMax((int) playerState.track.duration);
             mTrackProgressBar.setDuration(playerState.track.duration);
             mTrackProgressBar.update(playerState.playbackPosition);
@@ -198,16 +204,18 @@ public class RemotePlayerActivity extends FragmentActivity {
         setContentView(R.layout.app_remote_layout);
 
         mConnectButton = findViewById(R.id.connect_button);
+        mConnectAuthorizeButton = findViewById(R.id.connect_authorize_button);
         mPlayerContextButton = findViewById(R.id.current_context_label);
         mSubscribeToPlayerContextButton = findViewById(R.id.subscribe_to_player_context_button);
         mCoverArtImageView = findViewById(R.id.image);
+        mImageLabel = findViewById(R.id.image_label);
+        mImageScaleTypeLabel = findViewById(R.id.image_scale_type_label);
         mPlayerStateButton = findViewById(R.id.current_track_label);
         mSubscribeToPlayerStateButton = findViewById(R.id.subscribe_to_player_state_button);
         mPlaybackSpeedButton = findViewById(R.id.playback_speed_button);
         mToggleRepeatButton = findViewById(R.id.toggle_repeat_button);
         mToggleShuffleButton = findViewById(R.id.toggle_shuffle_button);
         mPlayPauseButton = findViewById(R.id.play_pause_button);
-        mRecentErrorView = findViewById(R.id.recent_error);
 
         mSeekBar = findViewById(R.id.seek_to);
         mSeekBar.setEnabled(false);
@@ -220,6 +228,8 @@ public class RemotePlayerActivity extends FragmentActivity {
                 findViewById(R.id.disconnect_button),
                 mSubscribeToPlayerContextButton,
                 mSubscribeToPlayerStateButton,
+                mImageLabel,
+                mImageScaleTypeLabel,
                 mPlayPauseButton,
                 findViewById(R.id.seek_forward_button),
                 findViewById(R.id.seek_back_button),
@@ -233,8 +243,6 @@ public class RemotePlayerActivity extends FragmentActivity {
                 findViewById(R.id.play_album_button),
                 findViewById(R.id.play_artist_button),
                 findViewById(R.id.play_playlist_button),
-                findViewById(R.id.set_shuffle_button),
-                findViewById(R.id.set_repeat_all_button),
                 findViewById(R.id.subscribe_to_capabilities),
                 findViewById(R.id.get_collection_state),
                 findViewById(R.id.remove_uri),
@@ -246,6 +254,7 @@ public class RemotePlayerActivity extends FragmentActivity {
         SpotifyAppRemote.setDebugMode(true);
 
         onDisconnected();
+        onConnectAndAuthorizedClicked(null);
     }
 
     @Override
@@ -261,6 +270,18 @@ public class RemotePlayerActivity extends FragmentActivity {
         }
         mConnectButton.setEnabled(false);
         mConnectButton.setText(R.string.connected);
+        mConnectAuthorizeButton.setEnabled(false);
+        mConnectAuthorizeButton.setText(R.string.connected);
+
+        onSubscribedToPlayerStateButtonClicked(null);
+        onSubscribedToPlayerContextButtonClicked(null);
+    }
+
+    private void onConnecting() {
+        mConnectButton.setEnabled(false);
+        mConnectButton.setText(R.string.connecting);
+        mConnectAuthorizeButton.setEnabled(false);
+        mConnectAuthorizeButton.setText(R.string.connecting);
     }
 
     private void onDisconnected() {
@@ -269,8 +290,9 @@ public class RemotePlayerActivity extends FragmentActivity {
         }
         mConnectButton.setEnabled(true);
         mConnectButton.setText(R.string.connect);
+        mConnectAuthorizeButton.setEnabled(true);
+        mConnectAuthorizeButton.setText(R.string.authorize);
         mCoverArtImageView.setImageResource(R.drawable.widget_placeholder);
-        mRecentErrorView.setText(null);
         mPlayerContextButton.setText(R.string.title_player_context);
         mPlayerStateButton.setText(R.string.title_current_track);
         mToggleRepeatButton.clearColorFilter();
@@ -284,17 +306,16 @@ public class RemotePlayerActivity extends FragmentActivity {
     }
 
     public void onConnectClicked(View v) {
-        mConnectButton.setEnabled(false);
-        mConnectButton.setText(R.string.connecting);
+        onConnecting();
         connect(false);
     }
 
     public void onConnectAndAuthorizedClicked(View view) {
+        onConnecting();
         connect(true);
     }
 
     private void connect(boolean showAuthView) {
-        final int imageSize = (int) getResources().getDimension(R.dimen.image_size);
 
         SpotifyAppRemote.disconnect(mSpotifyAppRemote);
 
@@ -302,7 +323,6 @@ public class RemotePlayerActivity extends FragmentActivity {
                 getApplication(),
                 new ConnectionParams.Builder(CLIENT_ID)
                         .setRedirectUri(REDIRECT_URI)
-                        .setPreferredImageSize(imageSize)
                         .showAuthView(showAuthView)
                         .build(),
                 new Connector.ConnectionListener() {
@@ -325,18 +345,59 @@ public class RemotePlayerActivity extends FragmentActivity {
         onDisconnected();
     }
 
-    public void onResumeButtonClicked(View view) {
-        mSpotifyAppRemote.getPlayerApi()
-                .resume()
-                .setResultCallback(empty -> logMessage("Resume successful"))
-                .setErrorCallback(mErrorCallback);
+    public void onImageClicked(View view) {
+        if (mSpotifyAppRemote != null) {
+            mSpotifyAppRemote.getPlayerApi()
+                    .getPlayerState()
+                    .setResultCallback(playerState -> {
+                        PopupMenu menu = new PopupMenu(this, view);
+
+                        menu.getMenu().add(720, 720, 0, "Large (720px)");
+                        menu.getMenu().add(480, 480, 1, "Medium (480px)");
+                        menu.getMenu().add(360, 360, 2, "Small (360px)");
+                        menu.getMenu().add(240, 240, 3, "X Small (240px)");
+                        menu.getMenu().add(144, 144, 4, "Thumbnail (144px)");
+
+                        menu.show();
+
+                        menu.setOnMenuItemClickListener(item -> {
+                            mSpotifyAppRemote.getImagesApi()
+                                    .getImage(playerState.track.imageUri, Image.Dimension.values()[item.getOrder()])
+                                    .setResultCallback(bitmap -> {
+                                        mCoverArtImageView.setImageBitmap(bitmap);
+                                        mImageLabel.setText(String.format(Locale.ENGLISH, "%d x %d", bitmap.getWidth(), bitmap.getHeight()));
+                                    });
+                            return false;
+                        });
+                    })
+                    .setErrorCallback(mErrorCallback);
+        }
     }
 
-    public void onPauseButtonClicked(View view) {
-        mSpotifyAppRemote.getPlayerApi()
-                .pause()
-                .setResultCallback(empty -> logMessage("Pause successful"))
-                .setErrorCallback(mErrorCallback);
+    public void onImageScaleTypeClicked(View view) {
+        if (mSpotifyAppRemote != null) {
+            mSpotifyAppRemote.getPlayerApi()
+                    .getPlayerState()
+                    .setResultCallback(playerState -> {
+                        PopupMenu menu = new PopupMenu(this, view);
+
+                        menu.getMenu().add(0, ImageView.ScaleType.CENTER.ordinal(), 0, "CENTER");
+                        menu.getMenu().add(1, ImageView.ScaleType.CENTER_CROP.ordinal(), 1, "CENTER_CROP");
+                        menu.getMenu().add(2, ImageView.ScaleType.CENTER_INSIDE.ordinal(), 2, "CENTER_INSIDE");
+                        menu.getMenu().add(3, ImageView.ScaleType.MATRIX.ordinal(), 3, "MATRIX");
+                        menu.getMenu().add(4, ImageView.ScaleType.FIT_CENTER.ordinal(), 4, "FIT_CENTER");
+                        menu.getMenu().add(4, ImageView.ScaleType.FIT_XY.ordinal(), 5, "FIT_XY");
+
+                        menu.show();
+
+                        menu.setOnMenuItemClickListener(item -> {
+                            mCoverArtImageView.setScaleType(ImageView.ScaleType.values()[item.getItemId()]);
+                            mImageScaleTypeLabel.setText(ImageView.ScaleType.values()[item.getItemId()].toString());
+                            return false;
+                        });
+                    })
+                    .setErrorCallback(mErrorCallback);
+        }
     }
 
     public void onPlayPodcastButtonClicked(View view) {
@@ -378,13 +439,6 @@ public class RemotePlayerActivity extends FragmentActivity {
         }
     }
 
-    public void onShowPlayerStateButtonClicked(View view) {
-        mSpotifyAppRemote.getPlayerApi()
-                .getPlayerState()
-                .setResultCallback(playerState -> showDialog("Got current track", gson.toJson(playerState)))
-                .setErrorCallback(mErrorCallback);
-    }
-
     public void onToggleShuffleButtonClicked(View view) {
         mSpotifyAppRemote.getPlayerApi()
                 .toggleShuffle()
@@ -402,14 +456,14 @@ public class RemotePlayerActivity extends FragmentActivity {
     public void onSetShuffleTrueButtonClicked(View view) {
         mSpotifyAppRemote.getPlayerApi()
                 .setShuffle(true)
-                .setResultCallback(empty -> logMessage("Toggle shuffle successful"))
+                .setResultCallback(empty -> logMessage("Set shuffle true successful"))
                 .setErrorCallback(mErrorCallback);
     }
 
     public void onSetRepeatAllButtonClicked(View view) {
         mSpotifyAppRemote.getPlayerApi()
                 .setRepeat(Repeat.ALL)
-                .setResultCallback(empty -> logMessage("Toggle repeat successful"))
+                .setResultCallback(empty -> logMessage("Set repeat ALL successful"))
                 .setErrorCallback(mErrorCallback);
     }
 
@@ -595,7 +649,6 @@ public class RemotePlayerActivity extends FragmentActivity {
     private void logError(Throwable throwable, String msg) {
         Toast.makeText(this, "Error: " + msg, Toast.LENGTH_SHORT).show();
         Log.e(TAG, msg, throwable);
-        mRecentErrorView.setText(String.valueOf(throwable));
     }
 
     private void logMessage(String msg) {

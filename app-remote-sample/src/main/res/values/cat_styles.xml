@@ -6,11 +6,6 @@
         <item name="android:textColorLink">@color/cat_text_link</item>
     </style>
 
-    <style name="TextAppearance.Cat.Small">
-        <item name="android:textSize">12sp</item>
-        <item name="android:textColor">@color/cat_button_text</item>
-    </style>
-
     <style name="TextAppearance.Cat.Button">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/cat_button_text</item>
@@ -20,24 +15,20 @@
     <!-- Buttons -->
 
     <style name="Widget.Cat.Button" parent="Widget.AppCompat.Button">
-        <item name="android:lines">1</item>
-        <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
         <item name="android:gravity">center</item>
         <item name="android:textAppearance">@style/TextAppearance.Cat.Button</item>
         <item name="android:minHeight">@dimen/cat_button_height</item>
-        <item name="android:maxHeight">@dimen/cat_button_height</item>
     </style>
 
     <style name="Widget.Cat.Button.Small">
         <item name="android:layout_margin">4dp</item>
         <item name="android:gravity">center</item>
-        <item name="android:lines">1</item>
         <item name="android:textSize">10sp</item>
-        <item name="android:textAllCaps">true</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
         <item name="android:background">@drawable/cat_button_small</item>
         <item name="android:minHeight">@dimen/cat_button_small_height</item>
-        <item name="android:maxHeight">@dimen/cat_button_small_height</item>
     </style>
 
 </resources>
