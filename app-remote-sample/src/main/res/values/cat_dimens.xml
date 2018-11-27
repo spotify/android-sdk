@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="cat_button_height">48sp</dimen>
+
+    <dimen name="cat_button_small_height">24sp</dimen>
+    <dimen name="cat_button_small_padding">19sp</dimen>
+    <dimen name="cat_button_small_corner_radius">12sp</dimen>
+    <dimen name="cat_button_small_border_width">1dp</dimen>
+</resources>

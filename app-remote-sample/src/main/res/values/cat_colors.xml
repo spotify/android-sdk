@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources tools:ignore="UnusedResources" xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Cat color palette. -->
+    <color name="cat_grayscale_8_90">#E6121314</color>
+    <color name="cat_grayscale_25">#3e3e40</color>
+
+    <color name="cat_white">#ffffff</color>
+    <color name="cat_white_12_5">#20ffffff</color>
+    <color name="cat_white_40">#66ffffff</color>
+
+    <color name="cat_medium_green">#1db954</color>
+    <color name="cat_light_green">#1ed760</color>
+
+    <!-- Cat theme colors. -->
+
+    <color name="cat_text_link">@color/cat_white</color>
+
+    <color name="cat_button_background_default">@android:color/transparent</color>
+    <color name="cat_button_background_disabled">@android:color/transparent</color>
+    <color name="cat_button_background_focused">@android:color/transparent</color>
+    <color name="cat_button_background_pressed">@android:color/transparent</color>
+    <color name="cat_button_text_default">@color/cat_white</color>
+    <color name="cat_button_text_disabled">@color/cat_white_40</color>
+    <color name="cat_button_text_focused">@color/cat_white</color>
+    <color name="cat_button_text_pressed">@color/cat_white</color>
+    <color name="cat_button_border_default">@color/cat_white_40</color>
+    <color name="cat_button_border_disabled">@color/cat_white_12_5</color>
+    <color name="cat_button_border_focused">@color/cat_white_40</color>
+    <color name="cat_button_border_pressed">@color/cat_grayscale_25</color>
+    <color name="cat_button_border_checked">@color/cat_light_green</color>
+</resources>
