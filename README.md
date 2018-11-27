@@ -4,11 +4,19 @@
 The `Spotify Android SDK` allows your application to interact with the Spotify app service.
 The capabilities of this SDK includes authentication and getting metadata for the currently playing track and context, issuing playback commands and initiating playback of tracks, albums or playlists.
 
-The `Spotify Android SDK` consists of two libraries.<br/>
-`Spotify Authentication Library` handles authentication flow and [Spotify Web API](https://developer.spotify.com/documentation/web-api/) calls and `Spotify App Remote` manages audio playback via the Spotify app.<br/>
-The libraries work well together but can also be used separately. For example, if the application doesn't need to play music but needs user login or Web API capabilities it can use the `Spotify Authentication Library` by itself.
+**The `Spotify Android SDK` consists of two libraries**
+`Spotify App Remote` manages audio playback via the [Spotify Music app](https://play.google.com/store/apps/details?id=com.spotify.music) using `app-control-scope` only.
+`Spotify Authentication Library` handles authentication flow and [Spotify Web API](https://developer.spotify.com/documentation/web-api/) calls.<br/>
+The libraries works well together but can also be used separately. For example, if the application doesn't need to play music but needs user login or Web API capabilities with other [scopes](https://developer.spotify.com/documentation/general/guides/scopes/) you can use the `Spotify Authentication Library` by itself.
 
 Head over to [Spotify for Developers](https://developer.spotify.com/documentation/android/) for more reading about the Android SDK.
+
+### Spotify App Remote
+
+This library contains classes for music playback control and metadata access.
+The built-in authentication in App Remote requests for `app-control-scope` only, and is the only scope needed to use App Remote. No token exchange. If more [scopes](https://developer.spotify.com/documentation/general/guides/scopes/) are needed for web-api related calls then use `Spotify Authentication Library`.
+
+[Spotify App Remote README](app-remote-lib/README.md)
 
 ### Spotify Authentication Library
 
@@ -16,12 +24,6 @@ This library provides a way to obtain OAuth access tokens that can subsequently 
 [Spotify Authentication Library](https://github.com/spotify/android-auth) is an open source project.
 
 [Spotify Authentication Library README](auth-lib/README.md)
-
-### Spotify App Remote
-
-This library contains classes for music playback control and metadata access.
-
-[Spotify App Remote README](app-remote-lib/README.md)
 
 ## Getting Started
 

@@ -7,7 +7,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.4'
+        classpath 'com.android.tools.build:gradle:3.2.1'
     }
 }
 
@@ -32,8 +32,6 @@ allprojects {
         props.store(propsFile.newWriter(), "Automatically generated")
     }
 
-
-
     repositories {
         jcenter()
         maven {
@@ -45,18 +43,18 @@ allprojects {
 
 static def getVersionName(sampleName) {
     if (sampleName.equalsIgnoreCase('app-remote-sample')) {
-        return 'appRemoteGitVersionName'
+        return 'appRemoteSampleVersionName'
     } else if (sampleName.equalsIgnoreCase('auth-sample')) {
-        return 'authGitVersionName'
+        return 'authSampleVersionName'
     }
     return ''
 }
 
 static def getVersionCode(sampleName) {
     if (sampleName.equalsIgnoreCase('app-remote-sample')) {
-        return 'appRemoteGitVersionCode'
+        return 'appRemoteSampleVersionCode'
     } else if (sampleName.equalsIgnoreCase('auth-sample')) {
-        return 'authGitVersionCode'
+        return 'authSampleVersionCode'
     }
     return ''
 }

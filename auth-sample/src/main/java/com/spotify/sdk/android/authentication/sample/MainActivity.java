@@ -49,7 +49,6 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity {
 
     public static final String CLIENT_ID = "089d841ccc194c10a77afad9e1c11d54";
-    public static final String REDIRECT_URI = "testschema://callback";
     public static final int AUTH_TOKEN_REQUEST_CODE = 0x10;
     public static final int AUTH_CODE_REQUEST_CODE = 0x11;
 
@@ -142,19 +141,19 @@ public class MainActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                final TextView responseView = (TextView) findViewById(R.id.response_text_view);
+                final TextView responseView = findViewById(R.id.response_text_view);
                 responseView.setText(text);
             }
         });
     }
 
     private void updateTokenView() {
-        final TextView tokenView = (TextView) findViewById(R.id.token_text_view);
+        final TextView tokenView = findViewById(R.id.token_text_view);
         tokenView.setText(getString(R.string.token, mAccessToken));
     }
 
     private void updateCodeView() {
-        final TextView codeView = (TextView) findViewById(R.id.code_text_view);
+        final TextView codeView = findViewById(R.id.code_text_view);
         codeView.setText(getString(R.string.code, mAccessCode));
     }
 

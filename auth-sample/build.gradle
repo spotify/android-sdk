@@ -32,12 +32,12 @@ android {
         minSdkVersion androidMinSdk.toString().toInteger()
         targetSdkVersion androidTargetSdk.toString().toInteger()
 
-        versionName authGitVersionName
-        versionCode authGitVersionCode.toString().toInteger()
+        versionName authSampleVersionName
+        versionCode authSampleVersionCode.toString().toInteger()
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -53,12 +53,19 @@ android {
         textOutput 'stdout'
         xmlReport false
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
-    implementation project(':auth-lib')
+    //implementation files('../auth-lib/spotify-auth-release-1.1.0.aar') // Optional as local aar file dependency
+    implementation 'com.spotify.android:auth:1.1.0' // Maven dependency
+    implementation "com.android.support:customtabs:$supportLibVersion" // Needed for v28 support
 
     implementation "com.android.support:appcompat-v7:$supportLibVersion"
     implementation "com.android.support:design:$supportLibVersion"
-    implementation 'com.squareup.okhttp3:okhttp:3.4.1'
+    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
 }

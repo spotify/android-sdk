@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Spotify Android Auth</string>
+    <string name="app_name">SDK Auth</string>
     <string name="warning_need_token">You need to request an access token first</string>
     <string name="code">Code: %1$s</string>
     <string name="token">Access Token: %1$s</string>

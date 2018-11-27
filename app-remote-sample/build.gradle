@@ -42,8 +42,8 @@ android {
         minSdkVersion androidMinSdk.toString().toInteger()
         targetSdkVersion androidTargetSdk.toString().toInteger()
 
-        versionName appRemoteGitVersionName
-        versionCode appRemoteGitVersionCode.toString().toInteger()
+        versionName appRemoteSampleVersionName
+        versionCode appRemoteSampleVersionCode.toString().toInteger()
     }
 
     buildTypes {
