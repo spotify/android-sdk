@@ -1,2 +1,1 @@
-configurations.maybeCreate('default')
-artifacts.add('default', file('spotify-auth-release-1.1.0.aar'))
+apply plugin: 'java-library'

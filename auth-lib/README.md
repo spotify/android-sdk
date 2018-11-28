@@ -10,7 +10,7 @@ that can subsequently be used to play music or in requests to the [Spotify Web A
 To add this library to your project add the reference to its `build.gradle` file:
 
 ```gradle
-compile 'com.spotify.android:auth:1.1.0'
+implementation 'com.spotify.android:auth:1.1.0'
 ```
 
 To learn more about working with authentication see the
