@@ -5,8 +5,10 @@ The `Spotify Android SDK` allows your application to interact with the Spotify a
 The capabilities of this SDK includes authentication and getting metadata for the currently playing track and context, issuing playback commands and initiating playback of tracks, albums or playlists.
 
 **The `Spotify Android SDK` consists of two libraries**
-`Spotify App Remote` manages audio playback via the [Spotify Music app](https://play.google.com/store/apps/details?id=com.spotify.music) using `app-control-scope` only.
-`Spotify Authentication Library` handles authentication flow and [Spotify Web API](https://developer.spotify.com/documentation/web-api/) calls.<br/>
+
+`Spotify App Remote` manages audio playback via the [Spotify Music app](https://play.google.com/store/apps/details?id=com.spotify.music) using `app-control-scope` only.<br/>
+`Spotify Authentication Library` handles authentication flow and [Spotify Web API](https://developer.spotify.com/documentation/web-api/) calls.
+
 The libraries works well together but can also be used separately. For example, if the application doesn't need to play music but needs user login or Web API capabilities with other [scopes](https://developer.spotify.com/documentation/general/guides/scopes/) you can use the `Spotify Authentication Library` by itself.
 
 Head over to [Spotify for Developers](https://developer.spotify.com/documentation/android/) for more reading about the Android SDK.
