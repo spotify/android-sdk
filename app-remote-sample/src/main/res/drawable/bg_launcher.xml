@@ -10,7 +10,7 @@
     <item>
         <bitmap
             android:gravity="center"
-            android:src="@drawable/sp_logo" />
+            android:src="@drawable/ic_spotify_icon_rgb_green" />
     </item>
 
 </layer-list>
