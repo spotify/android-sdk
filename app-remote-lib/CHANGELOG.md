@@ -1,3 +1,11 @@
+# Version 0.6.1
+
+**What's New**
+
+* Fix for adding uri to play queue via `PlayerApi.queue` command.
+* Added `SpotifyRemoteServiceException` to catch `SecurityException` or `IllegalStateException` connection crash when trying to invoke startService/startForegroundService, see [ERRORS.md](ERRORS.md).
+* MotionStateApi has been removed.
+
 # Version 0.6.0
 
 **What's New**

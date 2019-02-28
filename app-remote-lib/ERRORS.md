@@ -3,7 +3,7 @@ Here you will find status messages, alerts, and errors that should be handled b
 ## Development/Implementation Errors
 
 Errors are implemented as a number of exception classes that will be delivered through callbacks
-when they occur. By investigating the type of the error, implementations can choose the right course
+when they occur. By investigating the type of the error, implementations can chose the right course
 of action.
 
 ### Connection errors
@@ -17,7 +17,10 @@ client has disconnected. The following comprises a list of errors that can be de
    CouldNotFindSpotifyApp
 ```
 
-The Spotify app is not installed on the device. The Spotify Android app must be installed on the user's device in order for the Spotify App Remote SDK to work. Please see the ["Installing Spotify" section](https://beta.developer.spotify.com/documentation/general/guides/content-linking-guide/) of the Content Linking guide on how to direct users to download Spotify.
+The Spotify app is not installed on the device. The Spotify Android app must be installed on the 
+user's device in order for the Spotify App Remote SDK to work. Please see the 
+["Installing Spotify" section](https://beta.developer.spotify.com/documentation/general/guides/content-linking-guide/) 
+of the Content Linking guide on how to direct users to download Spotify.
 
 ```
    NotLoggedInException
@@ -37,8 +40,9 @@ registered correctly at developer.spotify.com
    UserNotAuthorizedException
 ```
 
-Indicates the user did not authorize this client of App Remote to use Spotify on the user[“Authentication
-And Authorization”](https://developer.spotifyinternal.com/documentation/android-app-remote/#authentication-and-authorization) section on the Developer Site.
+Indicates the user did not authorize this client of App Remote to use Spotify on the users behalf.
+You need to make sure they approve `app-remote-control` scope first. For details see the "Authorize
+your application" section in the [tutorial](README.md)
 
 ```
    UnsupportedFeatureVersionException
@@ -77,9 +81,9 @@ The connection to the Spotify app was unexpectedly terminated. Spotify might hav
 killed by the system. You need to reconnect to continue using Spotify App Remote.
 
 ```
-   RemoteClientException
+   SpotifyRemoteServiceException
 ```
 
-Your requested call was not successful. The message will explain what type of action was unsuccessful and the reason why.
-For example, trying to initiate playback with a bad URI would return 
-`com.spotify.protocol.client.error.RemoteClientException: {"message":"Cannot play specified uri": [NOT_A_VALID_URI]"}`
+Encapsulates possible `SecurityException` and `IllegalStateException` errors thrown by Context#startService(Intent) and Context#startForegroundService(Intent).  
+`SecurityException` - If the caller does not have permission to access the service or the service can not be found.
+`IllegalStateException` - If the application is in a state where the service can not be started, be found, or be accessed (such as not in the foreground in a state when services are allowed).
