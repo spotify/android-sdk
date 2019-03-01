@@ -48,6 +48,16 @@ import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
 import com.spotify.android.appremote.api.ContentApi;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
+import com.spotify.android.appremote.api.error.AuthenticationFailedException;
+import com.spotify.android.appremote.api.error.CouldNotFindSpotifyApp;
+import com.spotify.android.appremote.api.error.LoggedOutException;
+import com.spotify.android.appremote.api.error.NotLoggedInException;
+import com.spotify.android.appremote.api.error.OfflineModeException;
+import com.spotify.android.appremote.api.error.SpotifyConnectionTerminatedException;
+import com.spotify.android.appremote.api.error.SpotifyDisconnectedException;
+import com.spotify.android.appremote.api.error.SpotifyRemoteServiceException;
+import com.spotify.android.appremote.api.error.UnsupportedFeatureVersionException;
+import com.spotify.android.appremote.api.error.UserNotAuthorizedException;
 import com.spotify.android.appremote.demo.R;
 import com.spotify.protocol.client.ErrorCallback;
 import com.spotify.protocol.client.Subscription;
@@ -333,7 +343,33 @@ public class RemotePlayerActivity extends FragmentActivity {
 
                     @Override
                     public void onFailure(Throwable error) {
-                        logMessage(String.format("Connection failed: %s", error));
+                        if (error instanceof SpotifyRemoteServiceException) {
+                            if (error.getCause() instanceof SecurityException) {
+                                logError(error, "SecurityException");
+                            } else if (error.getCause() instanceof IllegalStateException) {
+                                logError(error, "IllegalStateException");
+                            }
+                        } else if (error instanceof NotLoggedInException) {
+                            logError(error, "NotLoggedInException");
+                        } else if (error instanceof AuthenticationFailedException) {
+                            logError(error, "AuthenticationFailedException");
+                        } else if (error instanceof CouldNotFindSpotifyApp) {
+                            logError(error, "CouldNotFindSpotifyApp");
+                        } else if (error instanceof LoggedOutException) {
+                            logError(error, "LoggedOutException");
+                        } else if (error instanceof OfflineModeException) {
+                            logError(error, "OfflineModeException");
+                        } else if (error instanceof UserNotAuthorizedException) {
+                            logError(error, "UserNotAuthorizedException");
+                        } else if (error instanceof UnsupportedFeatureVersionException) {
+                            logError(error, "UnsupportedFeatureVersionException");
+                        } else if (error instanceof SpotifyDisconnectedException) {
+                            logError(error, "SpotifyDisconnectedException");
+                        } else if (error instanceof SpotifyConnectionTerminatedException) {
+                            logError(error, "SpotifyConnectionTerminatedException");
+                        } else {
+                            logError(error, String.format("Connection failed: %s", error));
+                        }
                         RemotePlayerActivity.this.onDisconnected();
                     }
                 });
