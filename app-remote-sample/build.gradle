@@ -51,6 +51,13 @@ android {
             debuggable true
             signingConfig signingConfigs.debug
         }
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile(
+                    'proguard-android-optimize.txt'),
+                    'proguard-rules.pro'
+        }
     }
 
     lintOptions {
@@ -73,7 +80,7 @@ repositories {
 }
 
 dependencies {
-    implementation files('../app-remote-lib/spotify-app-remote-release-0.6.1.aar')
+    implementation files('../app-remote-lib/spotify-app-remote-release-0.6.2.aar')
 
     implementation "com.android.support:appcompat-v7:$supportLibVersion"
     implementation "com.android.support:gridlayout-v7:$supportLibVersion"
