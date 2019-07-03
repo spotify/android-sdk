@@ -1,3 +1,9 @@
+# Version 0.6.2
+
+**What's New**
+* Fix: Remove unwanted dependency to Guava
+* Fix: Add rule to avoid proguard warning of missing classes
+
 # Version 0.6.1
 
 **What's New**
