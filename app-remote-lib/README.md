@@ -2,10 +2,10 @@
 
 ## Beta Release Information
 We're releasing this SDK early to gain feedback from the developer community about the future of 
-our Android SDKs. Please file feedback about missing issues or bugs over at our [issue tracker](https://github.com/spotify/android-app-remote-sdk/issues), 
+our Android SDKs. Please file feedback about missing issues or bugs over at our [issue tracker](https://github.com/spotify/android-sdk/issues), 
 making sure you search for existing issues and adding your voice to those rather than duplicating.
 
-[Open bug tickets](https://github.com/spotify/android-app-remote-sdk/labels/bug) | [Open feature requests](https://github.com/spotify/android-app-remote-sdk/labels/feature%20request) | [All](https://github.com/spotify/android-app-remote-sdk/issues)
+[Open bug tickets](https://github.com/spotify/android-sdk/labels/bug) | [Open feature requests and suggestions](https://github.com/spotify/android-sdk/labels/suggestion) | [All](https://github.com/spotify/android-sdk/issues)
 
 ## The Spotify App Remote SDK
 
@@ -37,11 +37,12 @@ The Spotify App Remote SDK is a set of lightweight objects that connect with t
 ## Getting started
 
 * Download the library from the `app-remote-lib` directory
-* Follow the [Beginner's Tutorial](https://beta.developer.spotify.com/documentation/android-app-remote/quick-start/). The tutorial is designed to help you set up your build environment and 
-get started with the Spotify App Remote SDK (Android). It leads you through the creation of a 
-simple app that connects to the Spotify app, plays a playlist and subscribes to PlayerState.
-* Have a look at the demo app in the `sample` directory. The demo app includes full source code and 
-example uses of the APIs available in the Spotify App Remote SDK (Android) to help you getting started.
+* Follow the [Beginner's Tutorial](https://developer.spotify.com/documentation/android/quick-start/#introduction). 
+The tutorial is designed to help you set up your build environment and  get started with the 
+Spotify App Remote SDK (Android). It leads you through the creation of a simple app that connects to 
+the Spotify app, plays a playlist and subscribes to PlayerState.
+* Have a look at the demo app in the `demo` directory. The demo app includes full source code and 
+example uses of the APIs available in the Spotify App Remote SDK (Android) to help you get started.
 
 ## SDK Components Overview
 The download package includes comprehensive Javadoc documentation of all API classes in the `docs`
@@ -111,11 +112,11 @@ In order to use the Spotify App Remote SDK, your application will need to get us
 remotely first. This can be done in two ways:
 
 1. By using Single Sign-On library. To do that you'll need to include the
-[Android Authentication Library](https://beta.developer.spotify.com/documentation/android-sdk/quick-start/#install-the-spotify-android-sdk) in your project
+[Android Authentication Library](https://developer.spotify.com/documentation/android/quick-start/#authorizing-user-with-single-sign-on-library) in your project
  and request `app-remote-control` scope. This approach is useful if you need to request more scopes
  or an access token for other purposes, for example to communicate with
- [Spotify Web API](https://beta.developer.spotify.com/documentation/web-api/). 
- Our [Android SDK Authentication Guide](https://beta.developer.spotify.com/documentation/android-sdk/quick-start/#authenticate-the-user)
+ [Spotify Web API](https://developer.spotify.com/documentation/web-api/). 
+ Our [Android SDK Authentication Guide](https://developer.spotify.com/documentation/android/guides/android-authentication/)
  provides instructions and examples for both methods.
 2. Use built-in authorization mechanism in Spotify App Remote (Android). To do that you'll need to request to show
 authorization view when connecting to Spotify. The library will automatically request the
@@ -126,9 +127,9 @@ how to use this method.
 
 **Note:** apps cannot be authorized or initiate a connection to start communicating with Spotify unless there is an internet connection.
 
-**Note:** The Spotify Android app must be installed on the user's device in order for the Spotify App Remote SDK to work. Please see the ["Installing Spotify" section](https://beta.developer.spotify.com/documentation/general/guides/content-linking-guide/) of the Content Linking guide on how to direct users to download Spotify.
+**Note:** The Spotify Android app must be installed on the user's device in order for the Spotify App Remote SDK to work. Please see the ["Installing Spotify" section](https://developer.spotify.com/documentation/general/guides/content-linking-guide/) of the Content Linking guide on how to direct users to download Spotify.
 
 ## Terms of Use
 
-Note that by using Spotify developer tools, you accept our [Developer Terms of Use](https://beta.developer.spotify.com/terms/).
+Note that by using Spotify developer tools, you accept our [Developer Terms of Use](https://developer.spotify.com/terms/).
 
