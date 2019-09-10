@@ -1,3 +1,8 @@
+# Version 0.6.3
+
+**What's New**
+* Fix: Add rule to avoid proguard warning of missing classes
+
 # Version 0.6.2
 
 **What's New**
