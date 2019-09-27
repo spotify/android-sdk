@@ -69,9 +69,11 @@ import com.spotify.protocol.types.PlayerContext;
 import com.spotify.protocol.types.PlayerState;
 import com.spotify.protocol.types.Repeat;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.CountDownLatch;
 
 public class RemotePlayerActivity extends FragmentActivity {
 
@@ -667,26 +669,34 @@ public class RemotePlayerActivity extends FragmentActivity {
         .getContentApi()
         .getRecommendedContentItems(ContentApi.ContentType.FITNESS)
         .setResultCallback(
-            listItems ->
-                mSpotifyAppRemote
-                    .getContentApi()
-                    .getChildrenOfItem(listItems.items[0], 3, 0)
-                    .setResultCallback(
-                        childListItems -> {
-                          showDialog("RecommendedContentItems", gson.toJson(childListItems));
-                          ListItem item = null;
-                          for (int i = 0; i < childListItems.items.length; ++i) {
-                            item = childListItems.items[i];
-                            if (item.playable) {
-                              logMessage(String.format("Trying to play %s", item.title));
-                              break;
-                            } else {
-                              item = null;
-                            }
-                          }
-                        })
-                    .setErrorCallback(mErrorCallback))
+            listItems -> {
+              final CountDownLatch latch = new CountDownLatch(listItems.items.length);
+              final List<ListItem> combined = new ArrayList<>(50);
+              for (int j = 0; j < listItems.items.length; j++) {
+                if (listItems.items[j].playable) {
+                  combined.add(listItems.items[j]);
+                  handleLatch(latch, combined);
+                } else {
+                  mSpotifyAppRemote
+                      .getContentApi()
+                      .getChildrenOfItem(listItems.items[j], 3, 0)
+                      .setResultCallback(
+                          childListItems -> {
+                            combined.addAll(Arrays.asList(childListItems.items));
+                            handleLatch(latch, combined);
+                          })
+                      .setErrorCallback(mErrorCallback);
+                }
+              }
+            })
         .setErrorCallback(mErrorCallback);
+  }
+
+  private void handleLatch(CountDownLatch latch, List<ListItem> combined) {
+    latch.countDown();
+    if (latch.getCount() == 0) {
+      showDialog("RecommendedContentItems", gson.toJson(combined));
+    }
   }
 
   public void onConnectSwitchToLocal(View view) {
