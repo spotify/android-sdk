@@ -326,7 +326,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:filterTouchesWhenObscured="false"
-                android:onClick="onConnectSwitchToLocal"
+                android:onClick="onConnectSwitchToLocalClicked"
                 android:text="@string/connect_switch_to_local" />
 
             <Button
@@ -380,7 +380,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:filterTouchesWhenObscured="false"
-                android:onClick="onGetFitnessRecommendedContentItems"
+                android:onClick="onGetFitnessRecommendedContentItemsClicked"
                 android:text="@string/browse_content" />
 
             <Button
@@ -389,7 +389,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:filterTouchesWhenObscured="false"
-                android:onClick="onSubscribeToCapabilities"
+                android:onClick="onSubscribeToCapabilitiesClicked"
                 android:text="@string/subscribe_to_capabilities" />
 
             <Button
@@ -398,7 +398,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:filterTouchesWhenObscured="false"
-                android:onClick="onGetCollectionState"
+                android:onClick="onGetCollectionStateClicked"
                 android:text="@string/get_collection_state" />
 
             <Button
@@ -407,7 +407,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:filterTouchesWhenObscured="false"
-                android:onClick="onRemoveUri"
+                android:onClick="onRemoveUriClicked"
                 android:text="@string/remove_uri" />
 
             <Button
@@ -416,17 +416,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:filterTouchesWhenObscured="false"
-                android:onClick="onSaveUri"
+                android:onClick="onSaveUriClicked"
                 android:text="@string/save_uri" />
-
-            <Button
-                android:id="@+id/echo"
-                style="@style/Widget.Cat.Button.Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:filterTouchesWhenObscured="false"
-                android:onClick="onEcho"
-                android:text="@string/echo" />
         </LinearLayout>
     </HorizontalScrollView>
 

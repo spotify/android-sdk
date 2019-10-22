@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="title_activity_remote">SDK Remote</string>
+    <string name="title_activity_remote_java">SDK Remote jv</string>
+    <string name="title_activity_remote_kotlin">SDK Remote kt</string>
     <string name="app_name">Spotify SDK Demo</string>
+
+    <!-- Errors -->
+    <string name="err_spotify_disconnected">"Spotify is not Connected. Use one of the 'connect' buttons"</string>
+    <string name="err_generic_toast">An error has occurred. Check the logs to know more.</string>
 
     <!-- Connect Auth -->
     <string name="connect">Connect</string>
@@ -28,5 +33,4 @@
     <string name="title_current_track">Current Track</string>
     <string name="title_image_size">Image size</string>
     <string name="title_image_scale_type">Scale type</string>
-    <string name="echo">Echo</string>
 </resources>
