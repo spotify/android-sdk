@@ -21,7 +21,6 @@
 
 package com.spotify.sdk.demo;
 
-import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -115,7 +114,6 @@ public class RemotePlayerActivity extends FragmentActivity {
 
   private final ErrorCallback mErrorCallback = throwable -> logError(throwable, "Boom!");
 
-  @SuppressLint("SetTextI18n")
   private final Subscription.EventCallback<PlayerContext> mPlayerContextEventCallback =
       new Subscription.EventCallback<PlayerContext>() {
         @Override
@@ -126,7 +124,6 @@ public class RemotePlayerActivity extends FragmentActivity {
         }
       };
 
-  @SuppressLint("SetTextI18n")
   private final Subscription.EventCallback<PlayerState> mPlayerStateEventCallback =
       new Subscription.EventCallback<PlayerState>() {
         @Override
@@ -277,7 +274,6 @@ public class RemotePlayerActivity extends FragmentActivity {
             findViewById(R.id.remove_uri),
             findViewById(R.id.save_uri),
             findViewById(R.id.get_fitness_recommended_items_button),
-            findViewById(R.id.echo),
             mSeekBar);
 
     SpotifyAppRemote.setDebugMode(true);
@@ -607,8 +603,7 @@ public class RemotePlayerActivity extends FragmentActivity {
         .setErrorCallback(mErrorCallback);
   }
 
-  @SuppressLint("SetTextI18n")
-  public void onSubscribeToCapabilities(View view) {
+  public void onSubscribeToCapabilitiesClicked(View view) {
 
     if (mCapabilitiesSubscription != null && !mCapabilitiesSubscription.isCanceled()) {
       mCapabilitiesSubscription.cancel();
@@ -635,7 +630,7 @@ public class RemotePlayerActivity extends FragmentActivity {
         .setErrorCallback(mErrorCallback);
   }
 
-  public void onGetCollectionState(View view) {
+  public void onGetCollectionStateClicked(View view) {
     mSpotifyAppRemote
         .getUserApi()
         .getLibraryState(TRACK_URI)
@@ -648,7 +643,7 @@ public class RemotePlayerActivity extends FragmentActivity {
         .setErrorCallback(t -> logError(t, "Error:" + t.getMessage()));
   }
 
-  public void onRemoveUri(View view) {
+  public void onRemoveUriClicked(View view) {
     mSpotifyAppRemote
         .getUserApi()
         .removeFromLibrary(TRACK_URI)
@@ -656,7 +651,7 @@ public class RemotePlayerActivity extends FragmentActivity {
         .setErrorCallback(throwable -> logError(throwable, "Error:" + throwable.getMessage()));
   }
 
-  public void onSaveUri(View view) {
+  public void onSaveUriClicked(View view) {
     mSpotifyAppRemote
         .getUserApi()
         .addToLibrary(TRACK_URI)
@@ -664,7 +659,7 @@ public class RemotePlayerActivity extends FragmentActivity {
         .setErrorCallback(throwable -> logError(throwable, "Error:" + throwable.getMessage()));
   }
 
-  public void onGetFitnessRecommendedContentItems(View view) {
+  public void onGetFitnessRecommendedContentItemsClicked(View view) {
     mSpotifyAppRemote
         .getContentApi()
         .getRecommendedContentItems(ContentApi.ContentType.FITNESS)
@@ -699,7 +694,7 @@ public class RemotePlayerActivity extends FragmentActivity {
     }
   }
 
-  public void onConnectSwitchToLocal(View view) {
+  public void onConnectSwitchToLocalClicked(View view) {
     mSpotifyAppRemote
         .getConnectApi()
         .connectSwitchToLocalDevice()
@@ -764,14 +759,6 @@ public class RemotePlayerActivity extends FragmentActivity {
                       mSubscribeToPlayerStateButton.setVisibility(View.VISIBLE);
                       logError(throwable, "Subscribed to PlayerContext failed!");
                     });
-  }
-
-  public void onEcho(View view) {
-    mSpotifyAppRemote
-        .call("com.spotify.echo", new Echo.Request("Hodor!"), Echo.Response.class)
-        .setResultCallback(
-            data -> logMessage(String.format("Echo to 'Hodor!' is '%s'", data.response)))
-        .setErrorCallback(mErrorCallback);
   }
 
   private void logError(Throwable throwable, String msg) {
