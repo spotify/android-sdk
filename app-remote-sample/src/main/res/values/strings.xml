@@ -16,6 +16,10 @@
     <string name="disconnect">Disconnect</string>
 
     <!-- Controls -->
+    <string name="on_demand_feedback">Can play on demand? %1$b</string>
+    <string name="is_in_collection_feedback">Is in the user collection? %1$b</string>
+    <string name="command_feedback">"'%1$s' command successful!"</string>
+    <string name="command_response">"'%1$s' command response"</string>
     <string name="connect_switch_to_local">Switch to Local Playback</string>
     <string name="play_podcast_button_label">Play podcast</string>
     <string name="play_album_button_label">Play album</string>

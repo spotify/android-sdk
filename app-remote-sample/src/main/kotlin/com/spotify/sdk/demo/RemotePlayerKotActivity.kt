@@ -90,7 +90,7 @@ class RemotePlayerKotActivity : FragmentActivity() {
     private lateinit var views: List<View>
     private lateinit var trackProgressBar: TrackProgressBar
 
-    private val errorCallback = { throwable: Throwable -> logError(throwable, getString(R.string.err_generic_toast)) }
+    private val errorCallback = { throwable: Throwable -> logError(throwable) }
 
     private val playerContextEventCallback = Subscription.EventCallback<PlayerContext> { playerContext ->
         current_context_label.apply {
@@ -164,7 +164,7 @@ class RemotePlayerKotActivity : FragmentActivity() {
         }
     }
 
-    private fun AppCompatImageButton.setTint(@ColorInt tint: Int): Unit {
+    private fun AppCompatImageButton.setTint(@ColorInt tint: Int) {
         DrawableCompat.setTint(drawable, Color.WHITE)
     }
 
@@ -368,7 +368,7 @@ class RemotePlayerKotActivity : FragmentActivity() {
                     }
 
                     override fun onFailure(error: Throwable) {
-                        logError(error, String.format("Connection failed: %s", error))
+                        logError(error)
                         this@RemotePlayerKotActivity.onDisconnected()
                     }
                 })
@@ -461,7 +461,7 @@ class RemotePlayerKotActivity : FragmentActivity() {
         assertAppRemoteConnected()
                 .playerApi
                 .play(uri)
-                .setResultCallback { logMessage("Play successful") }
+                .setResultCallback { logMessage(getString(R.string.command_feedback, "play")) }
                 .setErrorCallback(errorCallback)
     }
 
@@ -481,7 +481,7 @@ class RemotePlayerKotActivity : FragmentActivity() {
         assertAppRemoteConnected()
                 .playerApi
                 .toggleShuffle()
-                .setResultCallback { logMessage("Toggle shuffle successful") }
+                .setResultCallback { logMessage(getString(R.string.command_feedback, "toggle shuffle")) }
                 .setErrorCallback(errorCallback)
     }
 
@@ -489,23 +489,7 @@ class RemotePlayerKotActivity : FragmentActivity() {
         assertAppRemoteConnected()
                 .playerApi
                 .toggleRepeat()
-                .setResultCallback { logMessage("Toggle repeat successful") }
-                .setErrorCallback(errorCallback)
-    }
-
-    fun onSetShuffleTrueButtonClicked(notUsed: View) {
-        assertAppRemoteConnected()
-                .playerApi
-                .setShuffle(true)
-                .setResultCallback { logMessage("Set shuffle true successful") }
-                .setErrorCallback(errorCallback)
-    }
-
-    fun onSetRepeatAllButtonClicked(notUsed: View) {
-        assertAppRemoteConnected()
-                .playerApi
-                .setRepeat(Repeat.ALL)
-                .setResultCallback { logMessage("Set repeat ALL successful") }
+                .setResultCallback { logMessage(getString(R.string.command_feedback, "toggle repeat")) }
                 .setErrorCallback(errorCallback)
     }
 
@@ -513,7 +497,7 @@ class RemotePlayerKotActivity : FragmentActivity() {
         assertAppRemoteConnected()
                 .playerApi
                 .skipPrevious()
-                .setResultCallback { logMessage("Skip previous successful") }
+                .setResultCallback { logMessage(getString(R.string.command_feedback, "skip previous")) }
                 .setErrorCallback(errorCallback)
     }
 
@@ -525,12 +509,12 @@ class RemotePlayerKotActivity : FragmentActivity() {
                         if (playerState.isPaused) {
                             it.playerApi
                                     .resume()
-                                    .setResultCallback { logMessage("Play current track successful") }
+                                    .setResultCallback { logMessage(getString(R.string.command_feedback, "play")) }
                                     .setErrorCallback(errorCallback)
                         } else {
                             it.playerApi
                                     .pause()
-                                    .setResultCallback { logMessage("Pause successful") }
+                                    .setResultCallback { logMessage(getString(R.string.command_feedback, "pause")) }
                                     .setErrorCallback(errorCallback)
                         }
                     }
@@ -542,7 +526,7 @@ class RemotePlayerKotActivity : FragmentActivity() {
         assertAppRemoteConnected()
                 .playerApi
                 .skipNext()
-                .setResultCallback { logMessage("Skip next successful") }
+                .setResultCallback { logMessage(getString(R.string.command_feedback, "skip next")) }
                 .setErrorCallback(errorCallback)
     }
 
@@ -550,7 +534,7 @@ class RemotePlayerKotActivity : FragmentActivity() {
         assertAppRemoteConnected()
                 .playerApi
                 .seekToRelativePosition(-STEP_MS)
-                .setResultCallback { logMessage("Seek back 15 sec successful") }
+                .setResultCallback { logMessage(getString(R.string.command_feedback, "seek back")) }
                 .setErrorCallback(errorCallback)
     }
 
@@ -558,7 +542,7 @@ class RemotePlayerKotActivity : FragmentActivity() {
         assertAppRemoteConnected()
                 .playerApi
                 .seekToRelativePosition(STEP_MS)
-                .setResultCallback { logMessage("Seek forward 15 sec successful") }
+                .setResultCallback { logMessage(getString(R.string.command_feedback, "seek fwd")) }
                 .setErrorCallback(errorCallback)
     }
 
@@ -569,15 +553,14 @@ class RemotePlayerKotActivity : FragmentActivity() {
                 .userApi
                 .subscribeToCapabilities()
                 .setEventCallback { capabilities ->
-                    logMessage(
-                            String.format("Can play on demand: %s", capabilities.canPlayOnDemand))
+                    logMessage(getString(R.string.on_demand_feedback, capabilities.canPlayOnDemand))
                 }
                 .setErrorCallback(errorCallback) as Subscription<Capabilities>
 
         assertAppRemoteConnected()
                 .userApi
                 .capabilities
-                .setResultCallback { capabilities -> logMessage(String.format("Can play on demand: %s", capabilities.canPlayOnDemand)) }
+                .setResultCallback { capabilities -> logMessage(getString(R.string.on_demand_feedback, capabilities.canPlayOnDemand)) }
                 .setErrorCallback(errorCallback)
     }
 
@@ -586,28 +569,25 @@ class RemotePlayerKotActivity : FragmentActivity() {
                 .userApi
                 .getLibraryState(TRACK_URI)
                 .setResultCallback { libraryState ->
-                    logMessage(
-                            String.format(
-                                    "Item is in collection: %s\nCan be added to collection: %s",
-                                    libraryState.isAdded, libraryState.canAdd))
+                    showDialog(getString(R.string.command_response, getString(R.string.get_collection_state)), gson.toJson(libraryState))
                 }
-                .setErrorCallback { t -> logError(t, "Error:" + t.message) }
+                .setErrorCallback { throwable -> logError(throwable) }
     }
 
     fun onRemoveUriClicked(notUsed: View) {
         assertAppRemoteConnected()
                 .userApi
                 .removeFromLibrary(TRACK_URI)
-                .setResultCallback { logMessage("Remove from collection successful") }
-                .setErrorCallback { throwable -> logError(throwable, "Error:" + throwable.message) }
+                .setResultCallback { logMessage(getString(R.string.command_feedback, getString(R.string.remove_uri))) }
+                .setErrorCallback { throwable -> logError(throwable) }
     }
 
     fun onSaveUriClicked(notUsed: View) {
         assertAppRemoteConnected()
                 .userApi
                 .addToLibrary(TRACK_URI)
-                .setResultCallback { logMessage("Add to collection successful") }
-                .setErrorCallback { throwable -> logError(throwable, "Error:" + throwable.message) }
+                .setResultCallback { logMessage(getString(R.string.command_feedback, getString(R.string.save_uri))) }
+                .setErrorCallback { throwable -> logError(throwable) }
     }
 
     fun onGetFitnessRecommendedContentItemsClicked(notUsed: View) {
@@ -640,7 +620,7 @@ class RemotePlayerKotActivity : FragmentActivity() {
     private fun handleLatch(latch: CountDownLatch, combined: List<ListItem>) {
         latch.countDown()
         if (latch.count == 0L) {
-            showDialog("RecommendedContentItems", gson.toJson(combined))
+            showDialog(getString(R.string.command_response, getString(R.string.browse_content)), gson.toJson(combined))
         }
     }
 
@@ -648,7 +628,7 @@ class RemotePlayerKotActivity : FragmentActivity() {
         assertAppRemoteConnected()
                 .connectApi
                 .connectSwitchToLocalDevice()
-                .setResultCallback { logMessage("Success!") }
+                .setResultCallback { logMessage(getString(R.string.command_feedback, getString(R.string.connect_switch_to_local))) }
                 .setErrorCallback(errorCallback)
     }
 
@@ -664,7 +644,7 @@ class RemotePlayerKotActivity : FragmentActivity() {
                 .setErrorCallback { throwable ->
                     current_context_label.visibility = View.INVISIBLE
                     subscribe_to_player_context_button.visibility = View.VISIBLE
-                    logError(throwable, "Subscribed to PlayerContext failed!")
+                    logError(throwable)
                 } as Subscription<PlayerContext>
     }
 
@@ -708,7 +688,7 @@ class RemotePlayerKotActivity : FragmentActivity() {
                 assertAppRemoteConnected()
                         .playerApi
                         .setPodcastPlaybackSpeed(PlaybackSpeed.PodcastPlaybackSpeed.values()[item.order])
-                        .setResultCallback { logMessage("Play podcast successful") }
+                        .setResultCallback { logMessage(getString(R.string.command_feedback, getString(R.string.play_podcast_button_label))) }
                         .setErrorCallback(errorCallback)
                 false
             }
@@ -735,9 +715,9 @@ class RemotePlayerKotActivity : FragmentActivity() {
         throw SpotifyDisconnectedException()
     }
 
-    private fun logError(throwable: Throwable, msg: String) {
-        Toast.makeText(this, "Error: $msg", Toast.LENGTH_SHORT).show()
-        Log.e(TAG, msg, throwable)
+    private fun logError(throwable: Throwable) {
+        Toast.makeText(this, R.string.err_generic_toast, Toast.LENGTH_SHORT).show()
+        Log.e(TAG, "", throwable)
     }
 
     private fun logMessage(msg: String, duration: Int = Toast.LENGTH_SHORT) {
