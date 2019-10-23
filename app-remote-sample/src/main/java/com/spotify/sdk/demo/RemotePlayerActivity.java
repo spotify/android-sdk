@@ -47,16 +47,6 @@ import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
 import com.spotify.android.appremote.api.ContentApi;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
-import com.spotify.android.appremote.api.error.AuthenticationFailedException;
-import com.spotify.android.appremote.api.error.CouldNotFindSpotifyApp;
-import com.spotify.android.appremote.api.error.LoggedOutException;
-import com.spotify.android.appremote.api.error.NotLoggedInException;
-import com.spotify.android.appremote.api.error.OfflineModeException;
-import com.spotify.android.appremote.api.error.SpotifyConnectionTerminatedException;
-import com.spotify.android.appremote.api.error.SpotifyDisconnectedException;
-import com.spotify.android.appremote.api.error.SpotifyRemoteServiceException;
-import com.spotify.android.appremote.api.error.UnsupportedFeatureVersionException;
-import com.spotify.android.appremote.api.error.UserNotAuthorizedException;
 import com.spotify.android.appremote.demo.R;
 import com.spotify.protocol.client.ErrorCallback;
 import com.spotify.protocol.client.Subscription;
@@ -112,7 +102,7 @@ public class RemotePlayerActivity extends FragmentActivity {
   Subscription<PlayerContext> mPlayerContextSubscription;
   Subscription<Capabilities> mCapabilitiesSubscription;
 
-  private final ErrorCallback mErrorCallback = throwable -> logError(throwable, "Boom!");
+  private final ErrorCallback mErrorCallback = this::logError;
 
   private final Subscription.EventCallback<PlayerContext> mPlayerContextEventCallback =
       new Subscription.EventCallback<PlayerContext>() {
@@ -359,33 +349,7 @@ public class RemotePlayerActivity extends FragmentActivity {
 
           @Override
           public void onFailure(Throwable error) {
-            if (error instanceof SpotifyRemoteServiceException) {
-              if (error.getCause() instanceof SecurityException) {
-                logError(error, "SecurityException");
-              } else if (error.getCause() instanceof IllegalStateException) {
-                logError(error, "IllegalStateException");
-              }
-            } else if (error instanceof NotLoggedInException) {
-              logError(error, "NotLoggedInException");
-            } else if (error instanceof AuthenticationFailedException) {
-              logError(error, "AuthenticationFailedException");
-            } else if (error instanceof CouldNotFindSpotifyApp) {
-              logError(error, "CouldNotFindSpotifyApp");
-            } else if (error instanceof LoggedOutException) {
-              logError(error, "LoggedOutException");
-            } else if (error instanceof OfflineModeException) {
-              logError(error, "OfflineModeException");
-            } else if (error instanceof UserNotAuthorizedException) {
-              logError(error, "UserNotAuthorizedException");
-            } else if (error instanceof UnsupportedFeatureVersionException) {
-              logError(error, "UnsupportedFeatureVersionException");
-            } else if (error instanceof SpotifyDisconnectedException) {
-              logError(error, "SpotifyDisconnectedException");
-            } else if (error instanceof SpotifyConnectionTerminatedException) {
-              logError(error, "SpotifyConnectionTerminatedException");
-            } else {
-              logError(error, String.format("Connection failed: %s", error));
-            }
+            logError(error);
             RemotePlayerActivity.this.onDisconnected();
           }
         });
@@ -492,7 +456,7 @@ public class RemotePlayerActivity extends FragmentActivity {
     mSpotifyAppRemote
         .getPlayerApi()
         .play(uri)
-        .setResultCallback(empty -> logMessage("Play successful"))
+        .setResultCallback(empty -> logMessage(getString(R.string.command_feedback, "play")))
         .setErrorCallback(mErrorCallback);
   }
 
@@ -512,7 +476,8 @@ public class RemotePlayerActivity extends FragmentActivity {
     mSpotifyAppRemote
         .getPlayerApi()
         .toggleShuffle()
-        .setResultCallback(empty -> logMessage("Toggle shuffle successful"))
+        .setResultCallback(
+            empty -> logMessage(getString(R.string.command_feedback, "toggle shuffle")))
         .setErrorCallback(mErrorCallback);
   }
 
@@ -520,23 +485,8 @@ public class RemotePlayerActivity extends FragmentActivity {
     mSpotifyAppRemote
         .getPlayerApi()
         .toggleRepeat()
-        .setResultCallback(empty -> logMessage("Toggle repeat successful"))
-        .setErrorCallback(mErrorCallback);
-  }
-
-  public void onSetShuffleTrueButtonClicked(View view) {
-    mSpotifyAppRemote
-        .getPlayerApi()
-        .setShuffle(true)
-        .setResultCallback(empty -> logMessage("Set shuffle true successful"))
-        .setErrorCallback(mErrorCallback);
-  }
-
-  public void onSetRepeatAllButtonClicked(View view) {
-    mSpotifyAppRemote
-        .getPlayerApi()
-        .setRepeat(Repeat.ALL)
-        .setResultCallback(empty -> logMessage("Set repeat ALL successful"))
+        .setResultCallback(
+            empty -> logMessage(getString(R.string.command_feedback, "toggle repeat")))
         .setErrorCallback(mErrorCallback);
   }
 
@@ -544,7 +494,8 @@ public class RemotePlayerActivity extends FragmentActivity {
     mSpotifyAppRemote
         .getPlayerApi()
         .skipPrevious()
-        .setResultCallback(empty -> logMessage("Skip previous successful"))
+        .setResultCallback(
+            empty -> logMessage(getString(R.string.command_feedback, "skip previous")))
         .setErrorCallback(mErrorCallback);
   }
 
@@ -558,13 +509,15 @@ public class RemotePlayerActivity extends FragmentActivity {
                 mSpotifyAppRemote
                     .getPlayerApi()
                     .resume()
-                    .setResultCallback(empty -> logMessage("Play current track successful"))
+                    .setResultCallback(
+                        empty -> logMessage(getString(R.string.command_feedback, "play")))
                     .setErrorCallback(mErrorCallback);
               } else {
                 mSpotifyAppRemote
                     .getPlayerApi()
                     .pause()
-                    .setResultCallback(empty -> logMessage("Pause successful"))
+                    .setResultCallback(
+                        empty -> logMessage(getString(R.string.command_feedback, "pause")))
                     .setErrorCallback(mErrorCallback);
               }
             });
@@ -574,10 +527,7 @@ public class RemotePlayerActivity extends FragmentActivity {
     mSpotifyAppRemote
         .getPlayerApi()
         .skipNext()
-        .setResultCallback(
-            data -> {
-              logMessage("Skip next successful");
-            })
+        .setResultCallback(data -> logMessage(getString(R.string.command_feedback, "skip next")))
         .setErrorCallback(mErrorCallback);
   }
 
@@ -585,10 +535,7 @@ public class RemotePlayerActivity extends FragmentActivity {
     mSpotifyAppRemote
         .getPlayerApi()
         .seekToRelativePosition(-15000)
-        .setResultCallback(
-            data -> {
-              logMessage("Seek back 15 sec successful");
-            })
+        .setResultCallback(data -> logMessage(getString(R.string.command_feedback, "seek back")))
         .setErrorCallback(mErrorCallback);
   }
 
@@ -596,10 +543,7 @@ public class RemotePlayerActivity extends FragmentActivity {
     mSpotifyAppRemote
         .getPlayerApi()
         .seekToRelativePosition(15000)
-        .setResultCallback(
-            data -> {
-              logMessage("Seek forward 15 sec successful");
-            })
+        .setResultCallback(data -> logMessage(getString(R.string.command_feedback, "seek fwd")))
         .setErrorCallback(mErrorCallback);
   }
 
@@ -618,7 +562,9 @@ public class RemotePlayerActivity extends FragmentActivity {
                 .setEventCallback(
                     capabilities ->
                         logMessage(
-                            String.format("Can play on demand: %s", capabilities.canPlayOnDemand)))
+                            getString(
+                                R.string.on_demand_feedback,
+                                Boolean.valueOf(capabilities.canPlayOnDemand))))
                 .setErrorCallback(mErrorCallback);
 
     mSpotifyAppRemote
@@ -626,7 +572,10 @@ public class RemotePlayerActivity extends FragmentActivity {
         .getCapabilities()
         .setResultCallback(
             capabilities ->
-                logMessage(String.format("Can play on demand: %s", capabilities.canPlayOnDemand)))
+                logMessage(
+                    getString(
+                        R.string.on_demand_feedback,
+                        Boolean.valueOf(capabilities.canPlayOnDemand))))
         .setErrorCallback(mErrorCallback);
   }
 
@@ -636,27 +585,28 @@ public class RemotePlayerActivity extends FragmentActivity {
         .getLibraryState(TRACK_URI)
         .setResultCallback(
             libraryState ->
-                logMessage(
-                    String.format(
-                        "Item is in collection: %s\nCan be added to collection: %s",
-                        libraryState.isAdded, libraryState.canAdd)))
-        .setErrorCallback(t -> logError(t, "Error:" + t.getMessage()));
+                showDialog(
+                    getString(R.string.command_response, getString(R.string.get_collection_state)),
+                    gson.toJson(libraryState)))
+        .setErrorCallback(this::logError);
   }
 
   public void onRemoveUriClicked(View view) {
     mSpotifyAppRemote
         .getUserApi()
         .removeFromLibrary(TRACK_URI)
-        .setResultCallback(empty -> logMessage("Remove from collection successful"))
-        .setErrorCallback(throwable -> logError(throwable, "Error:" + throwable.getMessage()));
+        .setResultCallback(
+            empty -> getString(R.string.command_feedback, getString(R.string.remove_uri)))
+        .setErrorCallback(this::logError);
   }
 
   public void onSaveUriClicked(View view) {
     mSpotifyAppRemote
         .getUserApi()
         .addToLibrary(TRACK_URI)
-        .setResultCallback(empty -> logMessage("Add to collection successful"))
-        .setErrorCallback(throwable -> logError(throwable, "Error:" + throwable.getMessage()));
+        .setResultCallback(
+            empty -> logMessage(getString(R.string.command_feedback, getString(R.string.save_uri))))
+        .setErrorCallback(this::logError);
   }
 
   public void onGetFitnessRecommendedContentItemsClicked(View view) {
@@ -690,7 +640,9 @@ public class RemotePlayerActivity extends FragmentActivity {
   private void handleLatch(CountDownLatch latch, List<ListItem> combined) {
     latch.countDown();
     if (latch.getCount() == 0) {
-      showDialog("RecommendedContentItems", gson.toJson(combined));
+      showDialog(
+          getString(R.string.command_response, getString(R.string.browse_content)),
+          gson.toJson(combined));
     }
   }
 
@@ -698,7 +650,11 @@ public class RemotePlayerActivity extends FragmentActivity {
     mSpotifyAppRemote
         .getConnectApi()
         .connectSwitchToLocalDevice()
-        .setResultCallback(empty -> logMessage("Success!"))
+        .setResultCallback(
+            empty ->
+                logMessage(
+                    getString(
+                        R.string.command_feedback, getString(R.string.connect_switch_to_local))))
         .setErrorCallback(mErrorCallback);
   }
 
@@ -721,7 +677,7 @@ public class RemotePlayerActivity extends FragmentActivity {
                     throwable -> {
                       mPlayerContextButton.setVisibility(View.INVISIBLE);
                       mSubscribeToPlayerContextButton.setVisibility(View.VISIBLE);
-                      logError(throwable, "Subscribed to PlayerContext failed!");
+                      logError(throwable);
                     });
   }
 
@@ -757,13 +713,13 @@ public class RemotePlayerActivity extends FragmentActivity {
                     throwable -> {
                       mPlayerStateButton.setVisibility(View.INVISIBLE);
                       mSubscribeToPlayerStateButton.setVisibility(View.VISIBLE);
-                      logError(throwable, "Subscribed to PlayerContext failed!");
+                      logError(throwable);
                     });
   }
 
-  private void logError(Throwable throwable, String msg) {
-    Toast.makeText(this, "Error: " + msg, Toast.LENGTH_SHORT).show();
-    Log.e(TAG, msg, throwable);
+  private void logError(Throwable throwable) {
+    Toast.makeText(this, R.string.err_generic_toast, Toast.LENGTH_SHORT).show();
+    Log.e(TAG, "", throwable);
   }
 
   private void logMessage(String msg) {
@@ -797,7 +753,12 @@ public class RemotePlayerActivity extends FragmentActivity {
           mSpotifyAppRemote
               .getPlayerApi()
               .setPodcastPlaybackSpeed(PlaybackSpeed.PodcastPlaybackSpeed.values()[item.getOrder()])
-              .setResultCallback(empty -> logMessage("Play podcast successful"))
+              .setResultCallback(
+                  empty ->
+                      logMessage(
+                          getString(
+                              R.string.command_feedback,
+                              getString(R.string.play_podcast_button_label))))
               .setErrorCallback(mErrorCallback);
           return false;
         });
