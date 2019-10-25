@@ -23,9 +23,9 @@ allprojects {
          'androidBuildTools',
          'androidMinSdk',
          'androidTargetSdk',
+         'appCompatVersion',
          getVersionName(project.projectDir.name),
-         getVersionCode(project.projectDir.name),
-         'supportLibVersion'].each
+         getVersionCode(project.projectDir.name)].each
                 { propName ->
                     project.ext."${propName}" = rootProject."${propName}"
                     props.setProperty(propName, project."${propName}".toString())

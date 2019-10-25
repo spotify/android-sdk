@@ -25,17 +25,16 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
-import android.support.annotation.ColorInt
-import android.support.v4.app.FragmentActivity
-import android.support.v4.content.res.ResourcesCompat
-import android.support.v4.graphics.drawable.DrawableCompat
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.AppCompatImageButton
-import android.support.v7.widget.PopupMenu
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.ColorInt
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.AppCompatImageButton
+import androidx.appcompat.widget.PopupMenu
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import com.google.gson.GsonBuilder
 import com.spotify.android.appremote.api.ConnectionParams
 import com.spotify.android.appremote.api.Connector
@@ -62,7 +61,7 @@ import kotlin.coroutines.suspendCoroutine
 
 @SuppressLint("Registered")
 @Suppress("UNUSED_PARAMETER")
-class RemotePlayerKotActivity : FragmentActivity() {
+class RemotePlayerKotActivity : androidx.fragment.app.FragmentActivity() {
 
 
     object AuthParams {
