@@ -31,10 +31,12 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.lifecycle.lifecycleScope
 import com.google.gson.GsonBuilder
 import com.spotify.android.appremote.api.ConnectionParams
 import com.spotify.android.appremote.api.Connector
@@ -52,7 +54,9 @@ import com.spotify.sdk.demo.kotlin.RemotePlayerKotActivity.SpotifySampleContexts
 import com.spotify.sdk.demo.kotlin.RemotePlayerKotActivity.SpotifySampleContexts.PODCAST_URI
 import com.spotify.sdk.demo.kotlin.RemotePlayerKotActivity.SpotifySampleContexts.TRACK_URI
 import kotlinx.android.synthetic.main.app_remote_layout.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.coroutines.resume
@@ -61,7 +65,7 @@ import kotlin.coroutines.suspendCoroutine
 
 @SuppressLint("Registered")
 @Suppress("UNUSED_PARAMETER")
-class RemotePlayerKotActivity : androidx.fragment.app.FragmentActivity() {
+class RemotePlayerKotActivity : AppCompatActivity() {
 
 
     object AuthParams {
@@ -92,7 +96,6 @@ class RemotePlayerKotActivity : androidx.fragment.app.FragmentActivity() {
     private lateinit var views: List<View>
     private lateinit var trackProgressBar: TrackProgressBar
 
-    private val uiScope = CoroutineScope(Dispatchers.Main)
     private val errorCallback = { throwable: Throwable -> logError(throwable) }
 
     private val playerContextEventCallback = Subscription.EventCallback<PlayerContext> { playerContext ->
@@ -278,7 +281,6 @@ class RemotePlayerKotActivity : androidx.fragment.app.FragmentActivity() {
 
     override fun onStop() {
         super.onStop()
-        uiScope.cancel()
         SpotifyAppRemote.disconnect(spotifyAppRemote)
         onDisconnected()
     }
@@ -596,7 +598,7 @@ class RemotePlayerKotActivity : androidx.fragment.app.FragmentActivity() {
 
     fun onGetFitnessRecommendedContentItemsClicked(notUsed: View) {
         assertAppRemoteConnected().let {
-            uiScope.launch {
+            lifecycleScope.launch {
                 val combined = ArrayList<ListItem>(50)
                 val listItems = withContext(Dispatchers.IO) { loadRootRecommendations(it) }
                 listItems?.apply {
@@ -731,7 +733,7 @@ class RemotePlayerKotActivity : androidx.fragment.app.FragmentActivity() {
     private fun assertAppRemoteConnected(): SpotifyAppRemote {
         spotifyAppRemote?.let {
             if (it.isConnected) {
-                return it;
+                return it
             }
         }
         Log.e(TAG, getString(R.string.err_spotify_disconnected))
