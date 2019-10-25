@@ -53,9 +53,12 @@ import com.spotify.sdk.demo.kotlin.RemotePlayerKotActivity.SpotifySampleContexts
 import com.spotify.sdk.demo.kotlin.RemotePlayerKotActivity.SpotifySampleContexts.PODCAST_URI
 import com.spotify.sdk.demo.kotlin.RemotePlayerKotActivity.SpotifySampleContexts.TRACK_URI
 import kotlinx.android.synthetic.main.app_remote_layout.*
+import kotlinx.coroutines.*
 import java.util.*
-import java.util.concurrent.CountDownLatch
 import kotlin.collections.ArrayList
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 @SuppressLint("Registered")
 @Suppress("UNUSED_PARAMETER")
@@ -90,6 +93,7 @@ class RemotePlayerKotActivity : FragmentActivity() {
     private lateinit var views: List<View>
     private lateinit var trackProgressBar: TrackProgressBar
 
+    private val uiScope = CoroutineScope(Dispatchers.Main)
     private val errorCallback = { throwable: Throwable -> logError(throwable) }
 
     private val playerContextEventCallback = Subscription.EventCallback<PlayerContext> { playerContext ->
@@ -275,6 +279,7 @@ class RemotePlayerKotActivity : FragmentActivity() {
 
     override fun onStop() {
         super.onStop()
+        uiScope.cancel()
         SpotifyAppRemote.disconnect(spotifyAppRemote)
         onDisconnected()
     }
@@ -592,37 +597,56 @@ class RemotePlayerKotActivity : FragmentActivity() {
 
     fun onGetFitnessRecommendedContentItemsClicked(notUsed: View) {
         assertAppRemoteConnected().let {
-            it.contentApi
-                    .getRecommendedContentItems(ContentApi.ContentType.FITNESS)
-                    .setResultCallback { listItems ->
-                        val latch = CountDownLatch(listItems.items.size)
-                        val combined = ArrayList<ListItem>(50)
-                        for (j in listItems.items.indices) {
-                            if (listItems.items[j].playable) {
-                                combined.add(listItems.items[j])
-                                handleLatch(latch, combined)
-                            } else {
-                                it.contentApi
-                                        .getChildrenOfItem(listItems.items[j], 3, 0)
-                                        .setResultCallback { childListItems ->
-                                            combined.addAll(listOf(*childListItems.items))
-                                            handleLatch(latch, combined)
-                                        }
-                                        .setErrorCallback(errorCallback)
-                            }
+            uiScope.launch {
+                val combined = ArrayList<ListItem>(50)
+                val listItems = withContext(Dispatchers.IO) { loadRootRecommendations(it) }
+                listItems?.apply {
+                    for (i in items.indices) {
+                        if (items[i].playable) {
+                            combined.add(items[i])
+                        } else {
+                            val children: ListItems? = withContext(Dispatchers.IO) { loadChildren(it, items[i]) }
+                            combined.addAll(convertToList(children))
                         }
                     }
-                    .setErrorCallback(errorCallback)
-        }
-
-    }
-
-    private fun handleLatch(latch: CountDownLatch, combined: List<ListItem>) {
-        latch.countDown()
-        if (latch.count == 0L) {
-            showDialog(getString(R.string.command_response, getString(R.string.browse_content)), gson.toJson(combined))
+                }
+                showDialog(
+                        getString(R.string.command_response, getString(R.string.browse_content)),
+                        gson.toJson(combined))
+            }
         }
     }
+
+    private fun convertToList(inputItems: ListItems?): List<ListItem> {
+        if (inputItems?.items != null) {
+            return inputItems.items.toList()
+        } else {
+            return emptyList()
+        }
+    }
+
+    private suspend fun loadRootRecommendations(appRemote: SpotifyAppRemote): ListItems? =
+            suspendCoroutine { cont ->
+                appRemote.contentApi
+                        .getRecommendedContentItems(ContentApi.ContentType.FITNESS)
+                        .setResultCallback { listItems -> cont.resume(listItems) }
+                        .setErrorCallback { throwable ->
+                            errorCallback.invoke(throwable)
+                            cont.resumeWithException(throwable)
+                        }
+            }
+
+    private suspend fun loadChildren(appRemote: SpotifyAppRemote, parent: ListItem): ListItems? =
+            suspendCoroutine { cont ->
+                appRemote.contentApi
+                        .getChildrenOfItem(parent, 6, 0)
+                        .setResultCallback { listItems -> cont.resume(listItems) }
+                        .setErrorCallback { throwable ->
+                            errorCallback.invoke(throwable)
+                            cont.resumeWithException(throwable)
+                        }
+            }
+
 
     fun onConnectSwitchToLocalClicked(notUsed: View) {
         assertAppRemoteConnected()
