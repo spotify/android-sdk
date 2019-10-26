@@ -54,11 +54,10 @@ import com.spotify.sdk.demo.kotlin.RemotePlayerKotActivity.SpotifySampleContexts
 import com.spotify.sdk.demo.kotlin.RemotePlayerKotActivity.SpotifySampleContexts.PODCAST_URI
 import com.spotify.sdk.demo.kotlin.RemotePlayerKotActivity.SpotifySampleContexts.TRACK_URI
 import kotlinx.android.synthetic.main.app_remote_layout.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -360,25 +359,35 @@ class RemotePlayerKotActivity : AppCompatActivity() {
     private fun connect(showAuthView: Boolean) {
 
         SpotifyAppRemote.disconnect(spotifyAppRemote)
-
-        SpotifyAppRemote.connect(
-                application,
-                ConnectionParams.Builder(CLIENT_ID)
-                        .setRedirectUri(REDIRECT_URI)
-                        .showAuthView(showAuthView)
-                        .build(),
-                object : Connector.ConnectionListener {
-                    override fun onConnected(spotifyAppRemote: SpotifyAppRemote) {
-                        this@RemotePlayerKotActivity.spotifyAppRemote = spotifyAppRemote
-                        this@RemotePlayerKotActivity.onConnected()
-                    }
-
-                    override fun onFailure(error: Throwable) {
-                        logError(error)
-                        this@RemotePlayerKotActivity.onDisconnected()
-                    }
-                })
+        lifecycleScope.launch {
+            try {
+                spotifyAppRemote = connectToAppRemote(showAuthView)
+                onConnected()
+            } catch (error: Throwable) {
+                onDisconnected()
+                logError(error)
+            }
+        }
     }
+
+    private suspend fun connectToAppRemote(showAuthView: Boolean): SpotifyAppRemote? =
+            suspendCoroutine { cont: Continuation<SpotifyAppRemote> ->
+                SpotifyAppRemote.connect(
+                        application,
+                        ConnectionParams.Builder(CLIENT_ID)
+                                .setRedirectUri(REDIRECT_URI)
+                                .showAuthView(showAuthView)
+                                .build(),
+                        object : Connector.ConnectionListener {
+                            override fun onConnected(spotifyAppRemote: SpotifyAppRemote) {
+                                cont.resume(spotifyAppRemote)
+                            }
+
+                            override fun onFailure(error: Throwable) {
+                                cont.resumeWithException(error)
+                            }
+                        })
+            }
 
     fun onDisconnectClicked(notUsed: View) {
         SpotifyAppRemote.disconnect(spotifyAppRemote)
@@ -600,13 +609,13 @@ class RemotePlayerKotActivity : AppCompatActivity() {
         assertAppRemoteConnected().let {
             lifecycleScope.launch {
                 val combined = ArrayList<ListItem>(50)
-                val listItems = withContext(Dispatchers.IO) { loadRootRecommendations(it) }
+                val listItems = loadRootRecommendations(it)
                 listItems?.apply {
                     for (i in items.indices) {
                         if (items[i].playable) {
                             combined.add(items[i])
                         } else {
-                            val children: ListItems? = withContext(Dispatchers.IO) { loadChildren(it, items[i]) }
+                            val children: ListItems? = loadChildren(it, items[i])
                             combined.addAll(convertToList(children))
                         }
                     }
@@ -619,10 +628,10 @@ class RemotePlayerKotActivity : AppCompatActivity() {
     }
 
     private fun convertToList(inputItems: ListItems?): List<ListItem> {
-        if (inputItems?.items != null) {
-            return inputItems.items.toList()
+        return if (inputItems?.items != null) {
+            inputItems.items.toList()
         } else {
-            return emptyList()
+            emptyList()
         }
     }
 
