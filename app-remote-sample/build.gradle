@@ -68,12 +68,10 @@ android {
     flavorDimensions "sampleLanguage"
     productFlavors {
         ktSample {
-            applicationIdSuffix '.kt'
             dimension "sampleLanguage"
         }
 
         javaSample {
-            applicationIdSuffix '.java'
             dimension "sampleLanguage"
         }
     }
