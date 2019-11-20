@@ -8,7 +8,8 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.0'
+        classpath 'com.android.tools.build:gradle:3.5.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
     }
 }
 
@@ -22,9 +23,9 @@ allprojects {
          'androidBuildTools',
          'androidMinSdk',
          'androidTargetSdk',
+         'appCompatVersion',
          getVersionName(project.projectDir.name),
-         getVersionCode(project.projectDir.name),
-         'supportLibVersion'].each
+         getVersionCode(project.projectDir.name)].each
                 { propName ->
                     project.ext."${propName}" = rootProject."${propName}"
                     props.setProperty(propName, project."${propName}".toString())

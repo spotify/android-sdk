@@ -1,3 +1,10 @@
+# Version 0.7.0
+* Potentially breaking API change in `ContentApi`. The method `getRecommendedContentItems` will now take a `String` as `type`. We are making this change to support new dynamic categories.
+* Fixed bug in Track.equals method.
+* Fixed java.lang.NoClassDefFoundError: Failed resolution of: Lcom/spotify/android/appremote/api/ConnectionParams$Builder
+* Added the method getCrossfadeState in PlayerApi. This method will return the state of the audio Crossfade setting. (Supported in Spotify 8.5.31.398)
+* Skip to index - Skip to track at specified index in album or playlist
+
 # Version 0.6.3
 
 **What's New**
