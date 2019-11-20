@@ -125,8 +125,6 @@ won't be able to get the token back from the Remote SDK. It's also not possible 
 additional scopes. The Beginner's Tutorial contains an example on
 how to use this method.
 
-**Note:** apps cannot be authorized or initiate a connection to start communicating with Spotify unless there is an internet connection.
-
 **Note:** The Spotify Android app must be installed on the user's device in order for the Spotify App Remote SDK to work. Please see the ["Installing Spotify" section](https://developer.spotify.com/documentation/general/guides/content-linking-guide/) of the Content Linking guide on how to direct users to download Spotify.
 
 ## Terms of Use
