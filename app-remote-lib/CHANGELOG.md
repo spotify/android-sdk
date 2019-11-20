@@ -3,6 +3,7 @@
 * Fixed bug in Track.equals method.
 * Fixed java.lang.NoClassDefFoundError: Failed resolution of: Lcom/spotify/android/appremote/api/ConnectionParams$Builder
 * Added the method getCrossfadeState in PlayerApi. This method will return the state of the audio Crossfade setting. (Supported in Spotify 8.5.31.398)
+* Skip to index - Skip to track at specified index in album or playlist
 
 # Version 0.6.3
 
