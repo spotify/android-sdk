@@ -128,10 +128,10 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         final AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, data);
 
-        if (AUTH_TOKEN_REQUEST_CODE == requestCode) {
+        if (requestCode == AUTH_TOKEN_REQUEST_CODE) {
             mAccessToken = response.getAccessToken();
             updateTokenView();
-        } else if (AUTH_CODE_REQUEST_CODE == requestCode) {
+        } else if (requestCode == AUTH_CODE_REQUEST_CODE) {
             mAccessCode = response.getCode();
             updateCodeView();
         }
