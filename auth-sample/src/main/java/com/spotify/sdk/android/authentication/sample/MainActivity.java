@@ -30,9 +30,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-import com.spotify.sdk.android.authentication.AuthenticationClient;
-import com.spotify.sdk.android.authentication.AuthenticationRequest;
-import com.spotify.sdk.android.authentication.AuthenticationResponse;
+import com.spotify.sdk.android.auth.AuthorizationClient;
+import com.spotify.sdk.android.auth.AuthorizationRequest;
+import com.spotify.sdk.android.auth.AuthorizationResponse;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().setTitle(String.format(
-                Locale.US, "Spotify Auth Sample %s", com.spotify.sdk.android.authentication.BuildConfig.VERSION_NAME));
+                Locale.US, "Spotify Auth Sample %s", com.spotify.sdk.android.auth.BuildConfig.VERSION_NAME));
     }
 
     @Override
@@ -106,17 +106,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onRequestCodeClicked(View view) {
-        final AuthenticationRequest request = getAuthenticationRequest(AuthenticationResponse.Type.CODE);
-        AuthenticationClient.openLoginActivity(this, AUTH_CODE_REQUEST_CODE, request);
+        final AuthorizationRequest request = getAuthenticationRequest(AuthorizationResponse.Type.CODE);
+        AuthorizationClient.openLoginActivity(this, AUTH_CODE_REQUEST_CODE, request);
     }
 
     public void onRequestTokenClicked(View view) {
-        final AuthenticationRequest request = getAuthenticationRequest(AuthenticationResponse.Type.TOKEN);
-        AuthenticationClient.openLoginActivity(this, AUTH_TOKEN_REQUEST_CODE, request);
+        final AuthorizationRequest request = getAuthenticationRequest(AuthorizationResponse.Type.TOKEN);
+        AuthorizationClient.openLoginActivity(this, AUTH_TOKEN_REQUEST_CODE, request);
     }
 
-    private AuthenticationRequest getAuthenticationRequest(AuthenticationResponse.Type type) {
-        return new AuthenticationRequest.Builder(CLIENT_ID, type, getRedirectUri().toString())
+    private AuthorizationRequest getAuthenticationRequest(AuthorizationResponse.Type type) {
+        return new AuthorizationRequest.Builder(CLIENT_ID, type, getRedirectUri().toString())
                 .setShowDialog(false)
                 .setScopes(new String[]{"user-read-email"})
                 .setCampaign("your-campaign-token")
@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        final AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, data);
+        final AuthorizationResponse response = AuthorizationClient.getResponse(resultCode, data);
 
         if (requestCode == AUTH_TOKEN_REQUEST_CODE) {
             mAccessToken = response.getAccessToken();
