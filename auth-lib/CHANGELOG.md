@@ -1,5 +1,7 @@
 Change Log
 ==========
+## Version 1.2.2
+* Remove custom-tabs handling due to issues
 
 ## Version 1.2.1
 * Fixes an issue that produced a redirect error when the redirect uri contains CAPS.
