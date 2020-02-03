@@ -127,7 +127,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         final AuthorizationResponse response = AuthorizationClient.getResponse(resultCode, data);
-
+        if (response.getError() != null && response.getError().isEmpty()) {
+            setResponse(response.getError());
+        }
         if (requestCode == AUTH_TOKEN_REQUEST_CODE) {
             mAccessToken = response.getAccessToken();
             updateTokenView();
@@ -138,12 +140,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setResponse(final String text) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                final TextView responseView = findViewById(R.id.response_text_view);
-                responseView.setText(text);
-            }
+        runOnUiThread(() -> {
+            final TextView responseView = findViewById(R.id.response_text_view);
+            responseView.setText(text);
         });
     }
 
