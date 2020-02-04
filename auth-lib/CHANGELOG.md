@@ -1,5 +1,9 @@
 Change Log
 ==========
+## Version 1.2.3
+* Stability fixes on WebView based auth
+* Set LoginActivity launch mode to CLEAR_TOP but not SINGLE_TOP, so the activity will be recreated
+
 ## Version 1.2.2
 * Remove custom-tabs handling due to issues
 
