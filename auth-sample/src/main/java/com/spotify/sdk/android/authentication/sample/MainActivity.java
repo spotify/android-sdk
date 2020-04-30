@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         final AuthorizationResponse response = AuthorizationClient.getResponse(resultCode, data);
-        if (response.getError() != null && response.getError().isEmpty()) {
+        if (response.getError() != null && !response.getError().isEmpty()) {
             setResponse(response.getError());
         }
         if (requestCode == AUTH_TOKEN_REQUEST_CODE) {
