@@ -337,7 +337,7 @@ public class RemotePlayerActivity extends FragmentActivity {
     SpotifyAppRemote.disconnect(mSpotifyAppRemote);
 
     SpotifyAppRemote.connect(
-        getApplication(),
+        getApplicationContext(),
         new ConnectionParams.Builder(CLIENT_ID)
             .setRedirectUri(REDIRECT_URI)
             .showAuthView(showAuthView)
