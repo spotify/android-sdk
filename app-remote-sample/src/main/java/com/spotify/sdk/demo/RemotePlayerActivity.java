@@ -147,11 +147,12 @@ public class RemotePlayerActivity extends FragmentActivity {
             DrawableCompat.setTint(mToggleRepeatButton.getDrawable(), Color.WHITE);
           }
 
-          mPlayerStateButton.setText(
-              String.format(
-                  Locale.US, "%s\n%s", playerState.track.name, playerState.track.artist.name));
-          mPlayerStateButton.setTag(playerState);
-
+          if (playerState.track != null) {
+            mPlayerStateButton.setText(
+                    String.format(
+                            Locale.US, "%s\n%s", playerState.track.name, playerState.track.artist.name));
+            mPlayerStateButton.setTag(playerState);
+          }
           // Update progressbar
           if (playerState.playbackSpeed > 0) {
             mTrackProgressBar.unpause();
@@ -183,7 +184,7 @@ public class RemotePlayerActivity extends FragmentActivity {
           } else if (playerState.playbackSpeed == 3f) {
             mPlaybackSpeedButton.setImageResource(R.drawable.ic_playback_speed_300);
           }
-          if (playerState.track.isPodcast && playerState.track.isEpisode) {
+          if (playerState.track != null && playerState.track.isPodcast && playerState.track.isEpisode) {
             mPlaybackSpeedButton.setEnabled(true);
             mPlaybackSpeedButton.clearColorFilter();
           } else {
@@ -191,22 +192,23 @@ public class RemotePlayerActivity extends FragmentActivity {
             mPlaybackSpeedButton.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
           }
 
-          // Get image from track
-          mSpotifyAppRemote
-              .getImagesApi()
-              .getImage(playerState.track.imageUri, Image.Dimension.LARGE)
-              .setResultCallback(
-                  bitmap -> {
-                    mCoverArtImageView.setImageBitmap(bitmap);
-                    mImageLabel.setText(
-                        String.format(
-                            Locale.ENGLISH, "%d x %d", bitmap.getWidth(), bitmap.getHeight()));
-                  });
-
+          if (playerState.track != null) {
+            // Get image from track
+            mSpotifyAppRemote
+                    .getImagesApi()
+                    .getImage(playerState.track.imageUri, Image.Dimension.LARGE)
+                    .setResultCallback(
+                            bitmap -> {
+                              mCoverArtImageView.setImageBitmap(bitmap);
+                              mImageLabel.setText(
+                                      String.format(
+                                              Locale.ENGLISH, "%d x %d", bitmap.getWidth(), bitmap.getHeight()));
+                            });
           // Invalidate seekbar length and position
           mSeekBar.setMax((int) playerState.track.duration);
           mTrackProgressBar.setDuration(playerState.track.duration);
           mTrackProgressBar.update(playerState.playbackPosition);
+        }
 
           mSeekBar.setEnabled(true);
         }
@@ -564,7 +566,7 @@ public class RemotePlayerActivity extends FragmentActivity {
                         logMessage(
                             getString(
                                 R.string.on_demand_feedback,
-                                Boolean.valueOf(capabilities.canPlayOnDemand))))
+                                    capabilities.canPlayOnDemand)))
                 .setErrorCallback(mErrorCallback);
 
     mSpotifyAppRemote
@@ -575,7 +577,7 @@ public class RemotePlayerActivity extends FragmentActivity {
                 logMessage(
                     getString(
                         R.string.on_demand_feedback,
-                        Boolean.valueOf(capabilities.canPlayOnDemand))))
+                            capabilities.canPlayOnDemand)))
         .setErrorCallback(mErrorCallback);
   }
 
