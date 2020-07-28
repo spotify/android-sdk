@@ -26,6 +26,15 @@ android {
     buildToolsVersion androidBuildTools
     compileSdkVersion androidCompileSdk.toString().toInteger()
 
+    signingConfigs {
+        debug {
+            storeFile file('keystore/example.keystore')
+            storePassword 'example'
+            keyAlias 'example_alias'
+            keyPassword 'example'
+        }
+    }
+
     defaultConfig {
         applicationId "com.spotify.sdk.android.authentication.sample"
 
@@ -39,6 +48,10 @@ android {
     }
 
     buildTypes {
+        debug {
+            debuggable true
+            signingConfig signingConfigs.debug
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt')
@@ -61,9 +74,8 @@ android {
 }
 
 dependencies {
-    //implementation files('../auth-lib/spotify-auth-release-1.2.1.aar') // Optional as local aar file dependency
-    implementation 'com.spotify.android:auth:1.2.1' // Maven dependency
-    implementation 'androidx.browser:browser:1.2.0'
+    //implementation files('../auth-lib/spotify-auth-release-1.2.3.aar') // Optional as local aar file dependency
+    implementation 'com.spotify.android:auth:1.2.3' // Maven dependency
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'com.squareup.okhttp3:okhttp:3.12.3'

@@ -10,7 +10,7 @@ that can subsequently be used to play music or in requests to the [Spotify Web A
 To add this library to your project add the reference to its `build.gradle` file:
 
 ```gradle
-implementation 'com.spotify.android:auth:1.2.1'
+implementation 'com.spotify.android:auth:1.2.3'
 ```
 
 To learn more about working with authentication see the
@@ -62,7 +62,7 @@ you get much better experience logging users in compare to WebView flow.
 
 # Sample Code
 
-Checkout [the sample project](auth-sample).
+Checkout [the sample project](https://github.com/spotify/android-sdk/tree/master/auth-sample).
 
 # Contributing
 
