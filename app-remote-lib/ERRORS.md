@@ -17,9 +17,9 @@ client has disconnected. The following comprises a list of errors that can be de
    CouldNotFindSpotifyApp
 ```
 
-The Spotify app is not installed on the device. The Spotify Android app must be installed on the 
-user's device in order for the Spotify App Remote SDK to work. Please see the 
-["Installing Spotify" section](https://beta.developer.spotify.com/documentation/general/guides/content-linking-guide/) 
+The Spotify app is not installed on the device. The Spotify Android app must be installed on the
+user's device in order for the Spotify App Remote SDK to work. Please see the
+["Installing Spotify" section](https://beta.developer.spotify.com/documentation/general/guides/content-linking-guide/)
 of the Content Linking guide on how to direct users to download Spotify.
 
 ```
@@ -58,14 +58,6 @@ Spotify user has set their Spotify app to be in offline mode, but app remote re
 made to the backend. The user needs to disable offline mode in the Spotify app.
 
 ```
-   LoggedOutException
-```
-
-User has logged out from Spotify. The difference between this one and `NotLoggedInException` is that
- in case of the latter the connection could not have been established. `LoggedOutException` means
- that user logged out after Remote SDK connected to Spotify app.
-
-```
    SpotifyDisconnectedException
 ```
 
@@ -84,6 +76,6 @@ killed by the system. You need to reconnect to continue using Spotify App Remote
    SpotifyRemoteServiceException
 ```
 
-Encapsulates possible `SecurityException` and `IllegalStateException` errors thrown by Context#startService(Intent) and Context#startForegroundService(Intent).  
+Encapsulates possible `SecurityException` and `IllegalStateException` errors  thrown by Context#startService(Intent) and Context#startForegroundService(Intent).
 `SecurityException` - If the caller does not have permission to access the service or the service can not be found.
 `IllegalStateException` - If the application is in a state where the service can not be started, be found, or be accessed (such as not in the foreground in a state when services are allowed).
