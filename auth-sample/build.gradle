@@ -74,9 +74,9 @@ android {
 }
 
 dependencies {
-    //implementation files('../auth-lib/spotify-auth-release-1.2.3.aar') // Optional as local aar file dependency
-    implementation 'com.spotify.android:auth:1.2.3' // Maven dependency
+//    implementation files('../auth-lib/spotify-auth-release-1.2.3.aar') // Optional as local aar file dependency
+    implementation 'com.spotify.android:auth:1.2.3' // Maven dependency (Preferred)
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
-    implementation 'com.google.android.material:material:1.0.0'
-    implementation 'com.squareup.okhttp3:okhttp:3.12.3'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'com.squareup.okhttp3:okhttp:3.14.1'
 }
