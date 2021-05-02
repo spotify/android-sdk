@@ -62,7 +62,8 @@ you get much better experience logging users in compare to WebView flow.
 
 # Sample Code
 
-Checkout [the sample project](auth-sample).
+Checkout [the sample project](https://github.com/spotify/android-sdk/tree/master/auth-sample).
+
 
 # Contributing
 
