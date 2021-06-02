@@ -26,7 +26,7 @@ apply plugin: 'kotlin-android'
 android {
 
     buildToolsVersion androidBuildTools
-    compileSdkVersion 30
+    compileSdkVersion androidCompileSdk.toString().toInteger()
 
     signingConfigs {
         debug {
