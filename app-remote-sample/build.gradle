@@ -22,7 +22,6 @@ description = 'Public App Remote SDK demo app'
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 
 android {
 
@@ -50,6 +49,10 @@ android {
 
         versionName appRemoteSampleVersionName
         versionCode appRemoteSampleVersionCode.toString().toInteger()
+    }
+
+    buildFeatures {
+        viewBinding true
     }
 
     buildTypes {
