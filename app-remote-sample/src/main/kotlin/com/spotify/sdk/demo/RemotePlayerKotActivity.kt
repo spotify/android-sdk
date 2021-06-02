@@ -19,7 +19,7 @@
  * under the License.
  */
 
-package com.spotify.sdk.demo.kotlin
+package com.spotify.sdk.demo
 
 import android.annotation.SuppressLint
 import android.graphics.Color
@@ -44,16 +44,16 @@ import com.spotify.android.appremote.api.ContentApi
 import com.spotify.android.appremote.api.SpotifyAppRemote
 import com.spotify.android.appremote.api.error.SpotifyDisconnectedException
 import com.spotify.android.appremote.demo.R
+import com.spotify.android.appremote.demo.databinding.AppRemoteLayoutBinding
 import com.spotify.protocol.client.Subscription
 import com.spotify.protocol.types.*
-import com.spotify.sdk.demo.kotlin.RemotePlayerKotActivity.AuthParams.CLIENT_ID
-import com.spotify.sdk.demo.kotlin.RemotePlayerKotActivity.AuthParams.REDIRECT_URI
-import com.spotify.sdk.demo.kotlin.RemotePlayerKotActivity.SpotifySampleContexts.ALBUM_URI
-import com.spotify.sdk.demo.kotlin.RemotePlayerKotActivity.SpotifySampleContexts.ARTIST_URI
-import com.spotify.sdk.demo.kotlin.RemotePlayerKotActivity.SpotifySampleContexts.PLAYLIST_URI
-import com.spotify.sdk.demo.kotlin.RemotePlayerKotActivity.SpotifySampleContexts.PODCAST_URI
-import com.spotify.sdk.demo.kotlin.RemotePlayerKotActivity.SpotifySampleContexts.TRACK_URI
-import kotlinx.android.synthetic.main.app_remote_layout.*
+import com.spotify.sdk.demo.RemotePlayerKotActivity.AuthParams.CLIENT_ID
+import com.spotify.sdk.demo.RemotePlayerKotActivity.AuthParams.REDIRECT_URI
+import com.spotify.sdk.demo.RemotePlayerKotActivity.SpotifySampleContexts.ALBUM_URI
+import com.spotify.sdk.demo.RemotePlayerKotActivity.SpotifySampleContexts.ARTIST_URI
+import com.spotify.sdk.demo.RemotePlayerKotActivity.SpotifySampleContexts.PLAYLIST_URI
+import com.spotify.sdk.demo.RemotePlayerKotActivity.SpotifySampleContexts.PODCAST_URI
+import com.spotify.sdk.demo.RemotePlayerKotActivity.SpotifySampleContexts.TRACK_URI
 import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
@@ -82,7 +82,7 @@ class RemotePlayerKotActivity : AppCompatActivity() {
 
     companion object {
         const val TAG = "App-Remote Sample"
-        const val STEP_MS = 15000L;
+        const val STEP_MS = 15000L
     }
 
     private val gson = GsonBuilder().setPrettyPrinting().create()
@@ -94,11 +94,12 @@ class RemotePlayerKotActivity : AppCompatActivity() {
 
     private lateinit var views: List<View>
     private lateinit var trackProgressBar: TrackProgressBar
+    private lateinit var binding: AppRemoteLayoutBinding
 
     private val errorCallback = { throwable: Throwable -> logError(throwable) }
 
     private val playerContextEventCallback = Subscription.EventCallback<PlayerContext> { playerContext ->
-        current_context_label.apply {
+        binding.currentContextLabel.apply {
             text = String.format(Locale.US, "%s\n%s", playerContext.title, playerContext.subtitle)
             tag = playerContext
         }
@@ -125,21 +126,21 @@ class RemotePlayerKotActivity : AppCompatActivity() {
     private fun updatePlayPauseButton(playerState: PlayerState) {
         // Invalidate play / pause
         if (playerState.isPaused) {
-            play_pause_button.setImageResource(R.drawable.btn_play)
+            binding.playPauseButton.setImageResource(R.drawable.btn_play)
         } else {
-            play_pause_button.setImageResource(R.drawable.btn_pause)
+            binding.playPauseButton.setImageResource(R.drawable.btn_pause)
         }
     }
 
     private fun updateTrackStateButton(playerState: PlayerState) {
-        current_track_label.apply {
+        binding.currentTrackLabel.apply {
             text = String.format(Locale.US, "%s\n%s", playerState.track.name, playerState.track.artist.name)
             tag = playerState
         }
     }
 
     private fun updateShuffleButton(playerState: PlayerState) {
-        toggle_shuffle_button.apply {
+        binding.toggleShuffleButton.apply {
             val shuffleDrawable = ResourcesCompat.getDrawable(resources, R.drawable.mediaservice_shuffle, theme)
             setImageDrawable(shuffleDrawable)
             if (!playerState.playbackOptions.isShuffling) {
@@ -151,7 +152,7 @@ class RemotePlayerKotActivity : AppCompatActivity() {
     }
 
     private fun updateRepeatButton(playerState: PlayerState) {
-        toggle_repeat_button.apply {
+        binding.toggleRepeatButton.apply {
             when (playerState.playbackOptions.repeatMode) {
                 Repeat.ALL -> {
                     setImageResource(R.drawable.mediaservice_repeat_all)
@@ -182,8 +183,8 @@ class RemotePlayerKotActivity : AppCompatActivity() {
                 pause()
             }
             // Invalidate seekbar length and position
-            seek_to.max = playerState.track.duration.toInt()
-            seek_to.isEnabled = true
+            binding.seekTo.max = playerState.track.duration.toInt()
+            binding.seekTo.isEnabled = true
             setDuration(playerState.track.duration)
             update(playerState.playbackPosition)
         }
@@ -195,15 +196,15 @@ class RemotePlayerKotActivity : AppCompatActivity() {
                 .imagesApi
                 .getImage(playerState.track.imageUri, Image.Dimension.LARGE)
                 .setResultCallback { bitmap ->
-                    image.setImageBitmap(bitmap)
-                    image_label.text = String.format(
+                    binding.image.setImageBitmap(bitmap)
+                    binding.imageLabel.text = String.format(
                             Locale.ENGLISH, "%d x %d", bitmap.width, bitmap.height)
                 }
     }
 
     private fun updatePlaybackSpeed(playerState: PlayerState) {
         // Invalidate playback speed
-        playback_speed_button.apply {
+        binding.playbackSpeedButton.apply {
             visibility = View.VISIBLE
             val speedIcDrawable = when (playerState.playbackSpeed) {
                 0.5f -> R.drawable.ic_playback_speed_50
@@ -231,44 +232,44 @@ class RemotePlayerKotActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.app_remote_layout)
 
-        seek_to.apply {
+        binding.seekTo.apply {
             isEnabled = false
             progressDrawable.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP)
             indeterminateDrawable.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP)
         }
 
-        trackProgressBar = TrackProgressBar(seek_to) { seekToPosition: Long -> seekTo(seekToPosition) }
+        trackProgressBar = TrackProgressBar(binding.seekTo) { seekToPosition: Long -> seekTo(seekToPosition) }
 
         views = listOf(
-                disconnect_button,
-                subscribe_to_player_context_button,
-                subscribe_to_player_state_button,
-                image_label,
-                image_scale_type_label,
-                play_pause_button,
-                seek_forward_button,
-                seek_back_button,
-                skip_prev_button,
-                skip_next_button,
-                toggle_repeat_button,
-                toggle_shuffle_button,
-                connect_switch_to_local,
-                play_podcast_button,
-                play_track_button,
-                play_album_button,
-                play_artist_button,
-                play_playlist_button,
-                subscribe_to_capabilities,
-                get_collection_state,
-                remove_uri,
-                save_uri,
-                get_fitness_recommended_items_button,
-                seek_to)
+                binding.disconnectButton,
+                binding.subscribeToPlayerContextButton,
+                binding.subscribeToPlayerStateButton,
+                binding.imageLabel,
+                binding.imageScaleTypeLabel,
+                binding.playPauseButton,
+                binding.seekForwardButton,
+                binding.seekBackButton,
+                binding.skipPrevButton,
+                binding.skipNextButton,
+                binding.toggleRepeatButton,
+                binding.toggleShuffleButton,
+                binding.connectSwitchToLocal,
+                binding.playPodcastButton,
+                binding.playTrackButton,
+                binding.playAlbumButton,
+                binding.playArtistButton,
+                binding.playPlaylistButton,
+                binding.subscribeToCapabilities,
+                binding.getCollectionState,
+                binding.removeUri,
+                binding.saveUri,
+                binding.getFitnessRecommendedItemsButton,
+                binding.seekTo)
 
         SpotifyAppRemote.setDebugMode(true)
 
         onDisconnected()
-        onConnectAndAuthorizedClicked(connect_authorize_button)
+        onConnectAndAuthorizedClicked(binding.connectAuthorizeButton)
     }
 
     private fun seekTo(seekToPosition: Long) {
@@ -288,25 +289,25 @@ class RemotePlayerKotActivity : AppCompatActivity() {
         for (input in views) {
             input.isEnabled = true
         }
-        connect_button.apply {
+        binding.connectButton.apply {
             isEnabled = false
             text = getString(R.string.connected)
         }
-        connect_authorize_button.apply {
+        binding.connectAuthorizeButton.apply {
             isEnabled = false
             text = getString(R.string.connected)
         }
 
-        onSubscribedToPlayerStateButtonClicked(subscribe_to_player_state_button)
-        onSubscribedToPlayerContextButtonClicked(subscribe_to_player_context_button)
+        onSubscribedToPlayerStateButtonClicked(binding.subscribeToPlayerStateButton)
+        onSubscribedToPlayerContextButtonClicked(binding.subscribeToPlayerContextButton)
     }
 
     private fun onConnecting() {
-        connect_button.apply {
+        binding.connectButton.apply {
             isEnabled = false
             text = getString(R.string.connecting)
         }
-        connect_authorize_button.apply {
+        binding.connectAuthorizeButton.apply {
             isEnabled = false
             text = getString(R.string.connecting)
         }
@@ -316,34 +317,34 @@ class RemotePlayerKotActivity : AppCompatActivity() {
         for (view in views) {
             view.isEnabled = false
         }
-        connect_button.apply {
+        binding.connectButton.apply {
             isEnabled = true
             text = getString(R.string.connect)
         }
-        connect_authorize_button.apply {
+        binding.connectAuthorizeButton.apply {
             isEnabled = true
             text = getString(R.string.authorize)
         }
-        image.setImageResource(R.drawable.widget_placeholder)
-        subscribe_to_player_context_button.apply {
+        binding.image.setImageResource(R.drawable.widget_placeholder)
+        binding.subscribeToPlayerContextButton.apply {
             visibility = View.VISIBLE
             setText(R.string.title_player_context)
         }
-        subscribe_to_player_state_button.apply {
+        binding.subscribeToPlayerStateButton.apply {
             visibility = View.VISIBLE
             setText(R.string.title_current_track)
         }
-        toggle_repeat_button.apply {
+        binding.toggleRepeatButton.apply {
             clearColorFilter()
             setImageResource(R.drawable.btn_repeat)
         }
-        toggle_shuffle_button.apply {
+        binding.toggleShuffleButton.apply {
             clearColorFilter()
             setImageResource(R.drawable.btn_shuffle)
         }
 
-        current_context_label.visibility = View.INVISIBLE
-        current_track_label.visibility = View.INVISIBLE
+        binding.currentContextLabel.visibility = View.INVISIBLE
+        binding.currentTrackLabel.visibility = View.INVISIBLE
     }
 
     fun onConnectClicked(notUsed: View) {
@@ -411,8 +412,8 @@ class RemotePlayerKotActivity : AppCompatActivity() {
                                         .getImage(
                                                 playerState.track.imageUri, Image.Dimension.values()[item.order])
                                         .setResultCallback { bitmap ->
-                                            image.setImageBitmap(bitmap)
-                                            image_label.text = String.format(
+                                            binding.image.setImageBitmap(bitmap)
+                                            binding.imageLabel.text = String.format(
                                                     Locale.ENGLISH,
                                                     "%d x %d",
                                                     bitmap.width,
@@ -441,8 +442,8 @@ class RemotePlayerKotActivity : AppCompatActivity() {
                         menu.add(4, ImageView.ScaleType.FIT_CENTER.ordinal, 4, "FIT_CENTER")
                         menu.add(4, ImageView.ScaleType.FIT_XY.ordinal, 5, "FIT_XY")
                         setOnMenuItemClickListener { item ->
-                            image.scaleType = ImageView.ScaleType.values()[item.itemId]
-                            image_label.text = ImageView.ScaleType.values()[item.itemId].toString()
+                            binding.image.scaleType = ImageView.ScaleType.values()[item.itemId]
+                            binding.imageLabel.text = ImageView.ScaleType.values()[item.itemId].toString()
                             false
                         }
                         show()
@@ -669,15 +670,15 @@ class RemotePlayerKotActivity : AppCompatActivity() {
     fun onSubscribedToPlayerContextButtonClicked(notUsed: View) {
         playerContextSubscription = cancelAndResetSubscription(playerContextSubscription)
 
-        current_context_label.visibility = View.VISIBLE
-        subscribe_to_player_context_button.visibility = View.INVISIBLE
+        binding.currentContextLabel.visibility = View.VISIBLE
+        binding.subscribeToPlayerContextButton.visibility = View.INVISIBLE
         playerContextSubscription = assertAppRemoteConnected()
                 .playerApi
                 .subscribeToPlayerContext()
                 .setEventCallback(playerContextEventCallback)
                 .setErrorCallback { throwable ->
-                    current_context_label.visibility = View.INVISIBLE
-                    subscribe_to_player_context_button.visibility = View.VISIBLE
+                    binding.currentContextLabel.visibility = View.INVISIBLE
+                    binding.subscribeToPlayerContextButton.visibility = View.VISIBLE
                     logError(throwable)
                 } as Subscription<PlayerContext>
     }
@@ -685,8 +686,8 @@ class RemotePlayerKotActivity : AppCompatActivity() {
     fun onSubscribedToPlayerStateButtonClicked(notUsed: View) {
         playerStateSubscription = cancelAndResetSubscription(playerStateSubscription)
 
-        current_track_label.visibility = View.VISIBLE
-        subscribe_to_player_state_button.visibility = View.INVISIBLE
+        binding.currentTrackLabel.visibility = View.VISIBLE
+        binding.subscribeToPlayerStateButton.visibility = View.INVISIBLE
 
         playerStateSubscription = assertAppRemoteConnected()
                 .playerApi
@@ -703,8 +704,8 @@ class RemotePlayerKotActivity : AppCompatActivity() {
                             }
                         })
                 .setErrorCallback {
-                    current_track_label.visibility = View.INVISIBLE
-                    subscribe_to_player_state_button.visibility = View.VISIBLE
+                    binding.currentTrackLabel.visibility = View.INVISIBLE
+                    binding.subscribeToPlayerStateButton.visibility = View.VISIBLE
                 } as Subscription<PlayerState>
     }
 

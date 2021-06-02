@@ -1,3 +1,10 @@
+# Version 0.7.2
+* Fixed package visibility issues on API > 30
+
+# Version 0.7.1
+* Replaced LoggedOutException usages with NotLoggedInException and removed LoggedOutException completely.
+* Introduced VolumeState class and added volume control to ConnectApi
+
 # Version 0.7.0
 * Potentially breaking API change in `ContentApi`. The method `getRecommendedContentItems` will now take a `String` as `type`. We are making this change to support new dynamic categories.
 * Fixed bug in Track.equals method.

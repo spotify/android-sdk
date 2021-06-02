@@ -1,4 +1,4 @@
-package com.spotify.sdk.demo.kotlin
+package com.spotify.sdk.demo
 
 import android.os.Handler
 import android.widget.SeekBar
