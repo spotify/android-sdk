@@ -1,3 +1,6 @@
+# Version 0.7.2
+* Fixed package visibility issues on API > 30
+
 # Version 0.7.1
 * Replaced LoggedOutException usages with NotLoggedInException and removed LoggedOutException completely.
 * Introduced VolumeState class and added volume control to ConnectApi

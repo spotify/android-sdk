@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name="com.spotify.sdk.demo.kotlin.RemotePlayerKotActivity"
+            android:name="com.spotify.sdk.demo.RemotePlayerKotActivity"
             android:exported="true"
             android:label="@string/title_activity_remote_kotlin"
             android:screenOrientation="portrait"

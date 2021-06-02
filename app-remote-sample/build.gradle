@@ -22,7 +22,6 @@ description = 'Public App Remote SDK demo app'
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 
 android {
 
@@ -50,6 +49,10 @@ android {
 
         versionName appRemoteSampleVersionName
         versionCode appRemoteSampleVersionCode.toString().toInteger()
+    }
+
+    buildFeatures {
+        viewBinding true
     }
 
     buildTypes {
@@ -96,12 +99,12 @@ repositories {
 }
 
 dependencies {
-    implementation files('../app-remote-lib/spotify-app-remote-release-0.7.1.aar')
+    implementation files('../app-remote-lib/spotify-app-remote-release-0.7.2.aar')
 
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
     implementation "com.google.code.gson:gson:2.8.6"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutinesVersion"
