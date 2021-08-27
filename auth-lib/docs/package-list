@@ -1,1 +1,3 @@
-com.spotify.sdk.android.authentication
+com.spotify.sdk.android.auth
+com.spotify.sdk.android.auth.app
+com.spotify.sdk.android.auth.webview
