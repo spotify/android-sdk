@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/spotify/android-auth.svg?branch=master)](https://travis-ci.org/spotify/android-auth)
 [![Maven Central](https://img.shields.io/maven-central/v/com.spotify.android/auth.svg)](https://search.maven.org/search?q=g:com.spotify.android)
 
-This library is responsible for fetching the authorization code/access token that can subsequently be used to play music or in requests to the [Spotify Web API](https://developer.spotify.com/web-api/).
+This library is responsible for authenticating the user and fetching the authorization code/access token that can subsequently be used to play music or in requests to the [Spotify Web API](https://developer.spotify.com/web-api/).
 
 # Integrating the library into your project
 
