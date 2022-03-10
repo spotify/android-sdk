@@ -1,5 +1,19 @@
 Change Log
 ==========
+
+## Version 2.0.0
+* Replaced WebView usage with Custom Tabs since Google and Facebook Login no longer support WebViews for authenticating users.
+* Removed AuthorizationClient#clearCookies method from the API. Custom Tabs use the cookies from the browser.
+* Bumped targetSdkVersion to 31
+
+## Version 1.2.6
+* Fixes an issue related to package visibility changes in API 30
+
+## Version 1.2.5
+* Updated targetSdkVersion (API 30), buildTools and Gradle plugin
+* Removed unused jcenter repository
+* Conform to package visibility restrictions when targeting Android 11 (API 30)
+
 ## Version 1.2.3
 * Stability fixes on WebView based auth
 * Set LoginActivity launch mode to CLEAR_TOP but not SINGLE_TOP, so the activity will be recreated
