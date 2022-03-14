@@ -43,6 +43,7 @@ android {
 
         versionName authSampleVersionName
         versionCode authSampleVersionCode.toString().toInteger()
+        manifestPlaceholders = [redirectSchemeName: "spotify-sdk", redirectHostName: "auth"]
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -66,17 +67,12 @@ android {
         textOutput 'stdout'
         xmlReport false
     }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
 }
 
 dependencies {
-//    implementation files('../auth-lib/spotify-auth-release-1.2.3.aar') // Optional as local aar file dependency
-    implementation 'com.spotify.android:auth:2.0.0' // Maven dependency (Preferred)
+//    implementation files('../auth-lib/spotify-auth-release-2.0.1.aar') // Optional as local aar file dependency
+    implementation 'com.spotify.android:auth:2.0.1' // Maven dependency (Preferred)
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
-    implementation 'com.google.android.material:material:1.2.1'
-    implementation 'com.squareup.okhttp3:okhttp:3.14.1'
+    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
 }
