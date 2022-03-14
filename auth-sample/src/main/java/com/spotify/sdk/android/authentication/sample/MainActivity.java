@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().setTitle(String.format(
-                Locale.US, "Spotify Auth Sample %s", com.spotify.sdk.android.auth.BuildConfig.VERSION_NAME));
+                Locale.US, "Spotify Auth Sample %s", com.spotify.sdk.android.auth.BuildConfig.LIB_VERSION_NAME));
     }
 
     @Override
