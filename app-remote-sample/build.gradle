@@ -87,11 +87,6 @@ android {
         pickFirst 'META-INF/LICENSE'
         pickFirst 'META-INF/NOTICE'
     }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
 }
 
 repositories {
