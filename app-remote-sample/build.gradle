@@ -94,7 +94,7 @@ repositories {
 }
 
 dependencies {
-    implementation files('../app-remote-lib/spotify-app-remote-release-0.7.2.aar')
+    implementation files("../app-remote-lib/spotify-app-remote-release-${appRemoteSampleVersionName}.aar")
 
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
