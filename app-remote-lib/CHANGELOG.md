@@ -1,3 +1,6 @@
+# Version 0.8.0
+* Changed the way we connect to the Spotify App. We do not longer start a foreground service when running Spotify 8.8.36 or newer. This means we will not display the foreground notification on recent versions
+
 # Version 0.7.2
 * Fixed package visibility issues on API > 30
 
