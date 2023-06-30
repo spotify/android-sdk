@@ -40,7 +40,9 @@ Below is an example of how this looks for [the auth sample project](auth-sample)
 ```
 
 To learn more see the [Authentication Guide](https://developer.spotify.com/technologies/spotify-android-sdk/android-sdk-authentication-guide/)
-and the [API reference](https://spotify.github.io/android-sdk/auth-lib/docs/index.html).
+and the API reference for each flavors:
+* [auth API reference](https://spotify.github.io/android-sdk/auth-lib/docs/index.html).
+* [store API reference](https://spotify.github.io/android-sdk/auth-lib/docs-store/index.html).
 
 The following entries are merged into your manifest when you add the library:
 
@@ -52,6 +54,13 @@ The following entries are merged into your manifest when you add the library:
     android:theme="@android:style/Theme.Translucent.NoTitleBar">
 </activity>
 ```
+
+# Flavors
+
+Since Spotify Auth library version 2.1.0, two versions of the library are provided that differs in
+their behaviour if the Spotify application cannot be used to login:
+* `auth` - Opens the web browser to login to Spotify
+* `store` - Redirects to the Android Play store to download the Spotify application
 
 # Sample Code
 
