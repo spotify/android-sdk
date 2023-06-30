@@ -1,5 +1,14 @@
 Change Log
 ==========
+## Version 2.1.0
+* Introduce a new flavour store to generate a library called auth-store that default to the play store instead of CustomTabsIntent
+* Expose method to check if the Spotify application is installed
+
+## Version 2.0.2
+* Fixed StackOverflowError at com.spotify.sdk.android.auth.browser.LoginDialog.onServiceDisconnected
+* Fixed NullPointerException when creating CustomTabsIntent in LoginDialog
+* Set LoginActivity launch mode to singleTask to avoid launching CustomTabs in a separate task
+
 ## Version 2.0.1
 * Removed unused code related to WebView
 
