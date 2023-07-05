@@ -64,7 +64,8 @@ their behaviour if the Spotify application cannot be used to login:
 
 # Sample Code
 
-Checkout [the sample project](auth-sample).
+Checkout [the sample project](https://github.com/spotify/android-sdk/tree/master/auth-sample).
+
 
 # Contributing
 
